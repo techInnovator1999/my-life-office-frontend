@@ -2,7 +2,6 @@
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import * as agentService from '@/services/agentService'
-import type { AgentsResponse } from './types'
 import { agentKeys } from './index'
 
 /**

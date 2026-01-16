@@ -2,33 +2,35 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { Button } from '@/components/common/Button'
 import { Input } from '@/components/common/Input'
-import { validators } from '@/utils/validators'
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
+import { forgotPasswordSchema, type ForgotPasswordFormData } from '@/lib/validations'
 import { useForgotPassword } from '@/provider/auth'
 import Image from 'next/image'
 
 export default function ForgotPasswordPage() {
-  const [email, setEmail] = useState('')
-  const [error, setError] = useState<string | null>(null)
   const [isSuccess, setIsSuccess] = useState(false)
   const forgotPasswordMutation = useForgotPassword()
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setError(null)
+  const form = useForm<ForgotPasswordFormData>({
+    resolver: zodResolver(forgotPasswordSchema),
+    defaultValues: {
+      email: '',
+    },
+  })
 
-    const emailValidation = validators.combine(validators.required, validators.email)(email)
-    if (!emailValidation.isValid) {
-      setError(emailValidation.error || 'Invalid email')
-      return
-    }
-
+  const onSubmit = async (data: ForgotPasswordFormData) => {
     try {
-      await forgotPasswordMutation.mutateAsync({ email, isResend: false })
+      await forgotPasswordMutation.mutateAsync({ email: data.email, isResend: false })
       setIsSuccess(true)
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to send password reset email')
+      form.setError('email', {
+        type: 'manual',
+        message: err instanceof Error ? err.message : 'Failed to send password reset email',
+      })
     }
   }
 
@@ -60,7 +62,7 @@ export default function ForgotPasswordPage() {
                   Email Sent!
                 </h2>
                 <p className="text-sm text-text-muted dark:text-text-muted-dark">
-                  We've sent a verification code to <strong>{email}</strong>. Please check your inbox and follow the instructions to reset your password.
+                  We've sent a verification code to <strong>{form.getValues('email')}</strong>. Please check your inbox and follow the instructions to reset your password.
                 </p>
               </div>
             </div>
@@ -69,28 +71,38 @@ export default function ForgotPasswordPage() {
             </Link>
           </div>
         ) : (
-          <form onSubmit={handleSubmit} className="bg-white dark:bg-surface-dark rounded-lg shadow-sm border border-neutral-200 dark:border-slate-700 p-6 space-y-4">
-            <Input
-              label="Email"
-              type="email"
-              icon="mail"
-              placeholder="name@company.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              error={error || undefined}
-              required
-            />
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="bg-white dark:bg-surface-dark rounded-lg shadow-sm border border-neutral-200 dark:border-slate-700 p-6 space-y-4">
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="email"
+                        icon="mail"
+                        placeholder="name@company.com"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-            <Button type="submit" isLoading={forgotPasswordMutation.isPending} className="w-full">
-              Send Reset Code
-            </Button>
+              <Button type="submit" isLoading={forgotPasswordMutation.isPending} className="w-full">
+                Send Reset Code
+              </Button>
 
-            <div className="text-center">
-              <Link href="/login" className="text-sm text-primary hover:text-primary/80 hover:underline">
-                Back to Login
-              </Link>
-            </div>
-          </form>
+              <div className="text-center">
+                <Link href="/login" className="text-sm text-primary hover:text-primary/80 hover:underline">
+                  Back to Login
+                </Link>
+              </div>
+            </form>
+          </Form>
         )}
       </div>
     </div>

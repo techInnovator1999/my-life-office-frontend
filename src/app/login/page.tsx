@@ -174,14 +174,15 @@ export default function LoginPage() {
                           setVerificationError(null)
                           
                           try {
+                            const formValues = form.getValues()
                             await confirmEmailMutation.mutateAsync({
-                              email: formData.email,
+                              email: formValues.email,
                               code: verificationCode,
                             })
                             setIsVerified(true)
                             setEmailNotVerified(false)
                             // After verification, try to login again with rememberMe preference
-                            await authLogin(formData.email, formData.password, rememberMe)
+                            await authLogin(formValues.email, formValues.password, rememberMe)
                             router.push('/profile')
                           } catch (error) {
                             setVerificationError(error instanceof Error ? error.message : 'Invalid verification code')
@@ -224,93 +225,108 @@ export default function LoginPage() {
 
               {/* Form */}
               {!emailNotVerified && (
-                <form onSubmit={handleSubmit} className="flex flex-col gap-5 mt-2" autoComplete="off">
-                {/* Email Field */}
-                <Input
-                  label="Email"
-                  type="email"
-                  icon="mail"
-                  placeholder="name@company.com"
-                  value={formData.email}
-                  onChange={(e) => handleChange('email', e.target.value)}
-                  onBlur={() => handleBlur('email')}
-                  error={errors.email}
-                  required
-                  autoComplete="off"
-                />
-
-                {/* Password Field */}
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-sm font-semibold text-neutral-900 dark:text-neutral-200 ml-1">
-                    Password
-                    <span className="text-red-500 ml-1">*</span>
-                  </label>
-                  <div className="relative group">
-                    <Input
-                      type={showPassword ? 'text' : 'password'}
-                      placeholder="••••••••"
-                      value={formData.password}
-                      onChange={(e) => handleChange('password', e.target.value)}
-                      onBlur={() => handleBlur('password')}
-                      error={errors.password}
-                      autoComplete="new-password"
+                <Form {...form}>
+                  <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-5 mt-2" autoComplete="off">
+                    {/* Email Field */}
+                    <FormField
+                      control={form.control}
+                      name="email"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Email</FormLabel>
+                          <FormControl>
+                            <Input
+                              type="email"
+                              icon="mail"
+                              placeholder="name@company.com"
+                              autoComplete="off"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
                     />
-                    {formData.password.length > 0 && (
-                      <button
-                        type="button"
-                        onClick={() => setShowPassword(!showPassword)}
-                        className="absolute right-4 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-neutral-600 focus:outline-none dark:hover:text-neutral-200 transition-colors"
+
+                    {/* Password Field */}
+                    <FormField
+                      control={form.control}
+                      name="password"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>
+                            Password
+                            <span className="text-red-500 ml-1">*</span>
+                          </FormLabel>
+                          <FormControl>
+                            <div className="relative group">
+                              <Input
+                                type={showPassword ? 'text' : 'password'}
+                                placeholder="••••••••"
+                                autoComplete="new-password"
+                                {...field}
+                              />
+                              {field.value && field.value.length > 0 && (
+                                <button
+                                  type="button"
+                                  onClick={() => setShowPassword(!showPassword)}
+                                  className="absolute right-4 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-neutral-600 focus:outline-none dark:hover:text-neutral-200 transition-colors"
+                                >
+                                  <span className="material-symbols-outlined text-[20px]">
+                                    {showPassword ? 'visibility' : 'visibility_off'}
+                                  </span>
+                                </button>
+                              )}
+                            </div>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    {/* Remember Me & Forgot Password */}
+                    <div className="flex items-center justify-between mt-1">
+                      <div className="flex items-start gap-3">
+                        <div className="flex h-6 items-center">
+                          <input
+                            className="h-5 w-5 rounded border-neutral-300 text-primary focus:ring-primary/25 dark:border-neutral-600 dark:bg-neutral-700 cursor-pointer"
+                            id="remember"
+                            type="checkbox"
+                            checked={rememberMe}
+                            onChange={(e) => setRememberMe(e.target.checked)}
+                          />
+                        </div>
+                        <label
+                          htmlFor="remember"
+                          className="text-sm font-medium text-neutral-600 dark:text-neutral-400 cursor-pointer"
+                        >
+                          Remember me
+                        </label>
+                      </div>
+                      <Link
+                        href="/forgot-password"
+                        className="text-sm font-bold text-primary hover:text-primary/80 hover:underline"
                       >
-                        <span className="material-symbols-outlined text-[20px]">
-                          {showPassword ? 'visibility' : 'visibility_off'}
-                        </span>
-                      </button>
-                    )}
-                  </div>
-                </div>
-
-                {/* Remember Me & Forgot Password */}
-                <div className="flex items-center justify-between mt-1">
-                  <div className="flex items-start gap-3">
-                    <div className="flex h-6 items-center">
-                      <input
-                        className="h-5 w-5 rounded border-neutral-300 text-primary focus:ring-primary/25 dark:border-neutral-600 dark:bg-neutral-700 cursor-pointer"
-                        id="remember"
-                        type="checkbox"
-                        checked={rememberMe}
-                        onChange={(e) => setRememberMe(e.target.checked)}
-                      />
+                        Forgot password?
+                      </Link>
                     </div>
-                    <label
-                      htmlFor="remember"
-                      className="text-sm font-medium text-neutral-600 dark:text-neutral-400 cursor-pointer"
-                    >
-                      Remember me
-                    </label>
-                  </div>
-                  <Link
-                    href="/forgot-password"
-                    className="text-sm font-bold text-primary hover:text-primary/80 hover:underline"
-                  >
-                    Forgot password?
-                  </Link>
-                </div>
 
-                {/* Submit Button */}
-                <Button
-                  type="submit"
-                  isLoading={isLoading}
-                  disabled={!isFormValid()}
-                  className="mt-2 flex w-full items-center justify-center"
-                >
-                  <span className="flex items-center gap-2">
-                    Sign In
-                    <span className="material-symbols-outlined text-[18px]">
-                      arrow_forward
-                    </span>
-                  </span>
-                </Button>
-              </form>
+                    {/* Submit Button */}
+                    <Button
+                      type="submit"
+                      isLoading={loginMutation.isPending}
+                      disabled={!form.formState.isValid}
+                      className="mt-2 flex w-full items-center justify-center"
+                    >
+                      <span className="flex items-center gap-2">
+                        Sign In
+                        <span className="material-symbols-outlined text-[18px]">
+                          arrow_forward
+                        </span>
+                      </span>
+                    </Button>
+                  </form>
+                </Form>
               )}
             </div>
           </div>

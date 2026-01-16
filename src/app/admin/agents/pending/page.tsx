@@ -1,23 +1,13 @@
 'use client'
 
 import { PrivateRoute } from '@/components/common/PrivateRoute'
-import { usePendingCrmAgents, useApproveAgent } from '@/provider/agents'
-import { Button } from '@/components/common/Button'
+import { usePendingCrmAgents } from '@/provider/agents'
 import { useState } from 'react'
 
 export default function PendingAgentsPage() {
-  const [page, setPage] = useState(1)
+  const [page] = useState(1)
   const [limit] = useState(10)
   const { data, isLoading, error } = usePendingCrmAgents(page, limit)
-  const approveMutation = useApproveAgent()
-
-  const handleApprove = async (agentId: string) => {
-    try {
-      await approveMutation.mutateAsync(agentId)
-    } catch (error) {
-      console.error('Failed to approve agent:', error)
-    }
-  }
 
   return (
     <PrivateRoute>

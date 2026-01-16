@@ -3,10 +3,13 @@
 import { useState, useEffect, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { Button } from '@/components/common/Button'
 import { Input } from '@/components/common/Input'
 import { PasswordStrength } from '@/components/common/PasswordStrength'
-import { validators } from '@/utils/validators'
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
+import { verifyResetCodeSchema, resetPasswordSchema, type VerifyResetCodeFormData, type ResetPasswordFormData } from '@/lib/validations'
 import { useResetPassword, useVerifyPasswordResetCode } from '@/provider/auth'
 import Image from 'next/image'
 
@@ -14,59 +17,58 @@ function ResetPasswordForm() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const [step, setStep] = useState<'verify' | 'reset'>('verify')
-  const [email, setEmail] = useState('')
-  const [code, setCode] = useState('')
-  const [password, setPassword] = useState('')
-  const [confirmPassword, setConfirmPassword] = useState('')
-  const [error, setError] = useState<string | null>(null)
+  const [verifiedEmail, setVerifiedEmail] = useState('')
+  const [verifiedCode, setVerifiedCode] = useState('')
+  
+  const verifyForm = useForm<VerifyResetCodeFormData>({
+    resolver: zodResolver(verifyResetCodeSchema),
+    defaultValues: {
+      email: '',
+      code: '',
+    },
+  })
+
+  const resetForm = useForm<ResetPasswordFormData>({
+    resolver: zodResolver(resetPasswordSchema),
+    defaultValues: {
+      password: '',
+      confirmPassword: '',
+    },
+  })
+
   const verifyMutation = useVerifyPasswordResetCode()
   const resetMutation = useResetPassword()
 
   useEffect(() => {
     const emailParam = searchParams.get('email')
     if (emailParam) {
-      setEmail(emailParam)
+      verifyForm.setValue('email', emailParam)
     }
-  }, [searchParams])
+  }, [searchParams, verifyForm])
 
-  const handleVerifyCode = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setError(null)
-
-    if (!email || !code) {
-      setError('Email and verification code are required')
-      return
-    }
-
+  const onVerifyCode = async (data: VerifyResetCodeFormData) => {
     try {
-      await verifyMutation.mutateAsync({ email, code })
+      await verifyMutation.mutateAsync({ email: data.email, code: data.code })
+      setVerifiedEmail(data.email)
+      setVerifiedCode(data.code)
       setStep('reset')
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Invalid verification code')
+      verifyForm.setError('code', {
+        type: 'manual',
+        message: err instanceof Error ? err.message : 'Invalid verification code',
+      })
     }
   }
 
-  const handleResetPassword = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setError(null)
-
-    const passwordValidation = validators.combine(validators.required, validators.minLength(8))(password)
-    if (!passwordValidation.isValid) {
-      setError(passwordValidation.error || 'Invalid password')
-      return
-    }
-
-    const matchValidation = validators.passwordMatch(password)(confirmPassword)
-    if (!matchValidation.isValid) {
-      setError(matchValidation.error || 'Passwords do not match')
-      return
-    }
-
+  const onResetPassword = async (data: ResetPasswordFormData) => {
     try {
-      await resetMutation.mutateAsync({ email, password, code })
+      await resetMutation.mutateAsync({ email: verifiedEmail, password: data.password, code: verifiedCode })
       router.push('/login')
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to reset password')
+      resetForm.setError('root', {
+        type: 'manual',
+        message: err instanceof Error ? err.message : 'Failed to reset password',
+      })
     }
   }
 
@@ -87,79 +89,115 @@ function ResetPasswordForm() {
         </div>
 
         {step === 'verify' ? (
-          <form onSubmit={handleVerifyCode} className="bg-white dark:bg-surface-dark rounded-lg shadow-sm border border-neutral-200 dark:border-slate-700 p-6 space-y-4">
-            <Input
-              label="Email"
-              type="email"
-              icon="mail"
-              placeholder="name@company.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-
-            <Input
-              label="Verification Code"
-              type="text"
-              placeholder="Enter 6-digit code"
-              value={code}
-              onChange={(e) => {
-                const value = e.target.value.replace(/\D/g, '').slice(0, 6)
-                setCode(value)
-              }}
-              maxLength={6}
-              required
-            />
-
-            {error && (
-              <div className="text-sm text-red-600 dark:text-red-400">{error}</div>
-            )}
-
-            <Button type="submit" isLoading={verifyMutation.isPending} className="w-full">
-              Verify Code
-            </Button>
-
-            <div className="text-center">
-              <Link href="/login" className="text-sm text-primary hover:text-primary/80 hover:underline">
-                Back to Login
-              </Link>
-            </div>
-          </form>
-        ) : (
-          <form onSubmit={handleResetPassword} className="bg-white dark:bg-surface-dark rounded-lg shadow-sm border border-neutral-200 dark:border-slate-700 p-6 space-y-4">
-            <div className="flex flex-col gap-1.5">
-              <label className="text-sm font-semibold text-neutral-900 dark:text-neutral-200 ml-1">
-                New Password
-                <span className="text-red-500 ml-1">*</span>
-              </label>
-              <Input
-                type="password"
-                placeholder="••••••••"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
+          <Form {...verifyForm}>
+            <form onSubmit={verifyForm.handleSubmit(onVerifyCode)} className="bg-white dark:bg-surface-dark rounded-lg shadow-sm border border-neutral-200 dark:border-slate-700 p-6 space-y-4">
+              <FormField
+                control={verifyForm.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="email"
+                        icon="mail"
+                        placeholder="name@company.com"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
-              <PasswordStrength password={password} />
-            </div>
 
-            <Input
-              label="Confirm Password"
-              type="password"
-              placeholder="••••••••"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              error={confirmPassword && password !== confirmPassword ? 'Passwords do not match' : undefined}
-              required
-            />
+              <FormField
+                control={verifyForm.control}
+                name="code"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Verification Code</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="text"
+                        placeholder="Enter 6-digit code"
+                        maxLength={6}
+                        {...field}
+                        onChange={(e) => {
+                          const value = e.target.value.replace(/\D/g, '').slice(0, 6)
+                          field.onChange(value)
+                        }}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-            {error && (
-              <div className="text-sm text-red-600 dark:text-red-400">{error}</div>
-            )}
+              <Button type="submit" isLoading={verifyMutation.isPending} className="w-full">
+                Verify Code
+              </Button>
 
-            <Button type="submit" isLoading={resetMutation.isPending} className="w-full">
-              Reset Password
-            </Button>
-          </form>
+              <div className="text-center">
+                <Link href="/login" className="text-sm text-primary hover:text-primary/80 hover:underline">
+                  Back to Login
+                </Link>
+              </div>
+            </form>
+          </Form>
+        ) : (
+          <Form {...resetForm}>
+            <form onSubmit={resetForm.handleSubmit(onResetPassword)} className="bg-white dark:bg-surface-dark rounded-lg shadow-sm border border-neutral-200 dark:border-slate-700 p-6 space-y-4">
+              <FormField
+                control={resetForm.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>
+                      New Password
+                      <span className="text-red-500 ml-1">*</span>
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        type="password"
+                        placeholder="••••••••"
+                        {...field}
+                      />
+                    </FormControl>
+                    <PasswordStrength password={field.value} />
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={resetForm.control}
+                name="confirmPassword"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Confirm Password</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="password"
+                        placeholder="••••••••"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              {resetForm.formState.errors.root && (
+                <div className="text-sm text-red-600 dark:text-red-400">
+                  {resetForm.formState.errors.root.message}
+                </div>
+              )}
+
+              <Button type="submit" isLoading={resetMutation.isPending} className="w-full">
+                Reset Password
+              </Button>
+            </form>
+          </Form>
         )}
       </div>
     </div>

@@ -6,7 +6,7 @@ import { Button } from '@/components/common/Button'
 import { useState } from 'react'
 
 export default function AgentsPage() {
-  const [page, setPage] = useState(1)
+  const [page] = useState(1)
   const [limit] = useState(10)
   const { data, isLoading, error } = useCrmAgents(page, limit)
 

@@ -2,7 +2,7 @@
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import * as contactService from '@/services/contactService'
-import type { Contact, CreateContactDto, UpdateContactDto } from './types'
+import type { CreateContactDto, UpdateContactDto } from './types'
 import { contactKeys } from './index'
 
 /**

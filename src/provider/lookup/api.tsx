@@ -5,7 +5,6 @@ import * as licenseTypeService from '@/services/licenseTypeService'
 import * as regionService from '@/services/regionService'
 import * as productSoldService from '@/services/productSoldService'
 import * as termLicenseService from '@/services/termLicenseService'
-import type { LicenseType, Region, ProductSold, TermLicense } from './types'
 import { lookupKeys } from './index'
 
 /**

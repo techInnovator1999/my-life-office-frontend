@@ -4,14 +4,9 @@ import { PrivateRoute } from '@/components/common/PrivateRoute'
 import { useAuth } from '@/contexts/AuthContext'
 import { Button } from '@/components/common/Button'
 import { Input } from '@/components/common/Input'
-import { useState } from 'react'
 
 export default function SettingsPage() {
   const { user } = useAuth()
-  const [formData, setFormData] = useState({
-    email: user?.email || '',
-    // Add other settings fields as needed
-  })
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -33,7 +28,7 @@ export default function SettingsPage() {
             <Input
               label="Email"
               type="email"
-              value={formData.email}
+              value={user?.email || ''}
               disabled
               className="bg-neutral-50 dark:bg-slate-800"
             />

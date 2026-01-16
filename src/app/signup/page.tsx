@@ -3,46 +3,39 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { Button } from '@/components/common/Button'
 import { Input } from '@/components/common/Input'
 import { Select } from '@/components/common/Select'
-import { validators } from '@/utils/validators'
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
+import { signupSchema, type SignupFormData } from '@/lib/validations'
 import { useRegions, useLicenseTypes } from '@/provider/lookup'
 import Image from 'next/image'
 
-type FormErrors = {
-  firstName?: string
-  lastName?: string
-  email?: string
-  password?: string
-  confirmPassword?: string
-  mobile?: string
-  registrationType?: string
-  primaryLicenseType?: string
-  residentState?: string
-}
-
 export default function SignupPage() {
   const router = useRouter()
-  const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-    mobile: '',
-    registrationType: '',
-    primaryLicenseType: '',
-    residentState: '',
-  })
-  const [errors, setErrors] = useState<FormErrors>({})
-  const [touched, setTouched] = useState<Record<string, boolean>>({})
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [isDark, setIsDark] = useState(false)
 
   const { data: regions } = useRegions()
   const { data: licenseTypes } = useLicenseTypes()
+
+  const form = useForm<SignupFormData>({
+    resolver: zodResolver(signupSchema),
+    defaultValues: {
+      firstName: '',
+      lastName: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
+      mobile: '',
+      registrationType: undefined,
+      primaryLicenseType: '',
+      residentState: '',
+    },
+  })
 
   // Detect theme changes
   useEffect(() => {
@@ -58,62 +51,20 @@ export default function SignupPage() {
     return () => observer.disconnect()
   }, [])
 
-  const validateField = (name: string, value: string) => {
-    switch (name) {
-      case 'firstName':
-      case 'lastName':
-        return validators.combine(validators.required, validators.minLength(2))(value)
-      case 'email':
-        return validators.combine(validators.required, validators.email)(value)
-      case 'password':
-        return validators.combine(validators.required, validators.minLength(8))(value)
-      case 'confirmPassword':
-        return validators.passwordMatch(formData.password)(value)
-      default:
-        return { isValid: true }
+  const onSubmit = async (data: SignupFormData) => {
+    setIsLoading(true)
+    try {
+      // TODO: Implement signup logic with useRegister hook
+      console.log('Signup data:', data)
+      // await registerMutation.mutateAsync(data)
+      router.push('/login')
+    } catch (error) {
+      console.error('Signup error:', error)
+    } finally {
+      setIsLoading(false)
     }
   }
 
-  const handleChange = (name: string, value: string) => {
-    setFormData((prev) => ({ ...prev, [name]: value }))
-    if (touched[name]) {
-      const result = validateField(name, value)
-      setErrors((prev) => ({
-        ...prev,
-        [name]: result.isValid ? undefined : result.error,
-      }))
-    }
-  }
-
-  const handleBlur = (name: string) => {
-    setTouched((prev) => ({ ...prev, [name]: true }))
-    const result = validateField(name, formData[name as keyof typeof formData])
-    setErrors((prev) => ({
-      ...prev,
-      [name]: result.isValid ? undefined : result.error,
-    }))
-  }
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    // TODO: Implement signup logic
-    router.push('/login')
-  }
-
-  const registrationTypeOptions = [
-    { value: 'INDIVIDUAL', label: 'Individual' },
-    { value: 'BUSINESS', label: 'Business' },
-  ]
-
-  const licenseTypeOptions = licenseTypes?.map((lt) => ({
-    value: lt.id,
-    label: lt.label,
-  })) || []
-
-  const regionOptions = regions?.map((r) => ({
-    value: r.id,
-    label: r.label,
-  })) || []
 
   return (
     <div className="flex h-screen w-full flex-row overflow-hidden bg-background-light dark:bg-background-dark font-display text-text-main dark:text-white antialiased">
@@ -138,129 +89,216 @@ export default function SignupPage() {
                 </p>
               </div>
 
-              <form onSubmit={handleSubmit} className="flex flex-col gap-5 mt-2" autoComplete="off">
-                <div className="grid grid-cols-2 gap-4">
-                  <Input
-                    label="First Name"
-                    type="text"
-                    placeholder="John"
-                    value={formData.firstName}
-                    onChange={(e) => handleChange('firstName', e.target.value)}
-                    onBlur={() => handleBlur('firstName')}
-                    error={errors.firstName}
-                    required
-                  />
-                  <Input
-                    label="Last Name"
-                    type="text"
-                    placeholder="Doe"
-                    value={formData.lastName}
-                    onChange={(e) => handleChange('lastName', e.target.value)}
-                    onBlur={() => handleBlur('lastName')}
-                    error={errors.lastName}
-                    required
-                  />
-                </div>
-
-                <Input
-                  label="Email"
-                  type="email"
-                  icon="mail"
-                  placeholder="name@company.com"
-                  value={formData.email}
-                  onChange={(e) => handleChange('email', e.target.value)}
-                  onBlur={() => handleBlur('email')}
-                  error={errors.email}
-                  required
-                />
-
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-sm font-semibold text-neutral-900 dark:text-neutral-200 ml-1">
-                    Password
-                    <span className="text-red-500 ml-1">*</span>
-                  </label>
-                  <div className="relative group">
-                    <Input
-                      type={showPassword ? 'text' : 'password'}
-                      placeholder="••••••••"
-                      value={formData.password}
-                      onChange={(e) => handleChange('password', e.target.value)}
-                      onBlur={() => handleBlur('password')}
-                      error={errors.password}
-                      autoComplete="new-password"
+              <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-5 mt-2" autoComplete="off">
+                  <div className="grid grid-cols-2 gap-4">
+                    <FormField
+                      control={form.control}
+                      name="firstName"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>First Name</FormLabel>
+                          <FormControl>
+                            <Input
+                              type="text"
+                              placeholder="John"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
                     />
-                    {formData.password.length > 0 && (
-                      <button
-                        type="button"
-                        onClick={() => setShowPassword(!showPassword)}
-                        className="absolute right-4 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-neutral-600 focus:outline-none dark:hover:text-neutral-200 transition-colors"
-                      >
-                        <span className="material-symbols-outlined text-[20px]">
-                          {showPassword ? 'visibility' : 'visibility_off'}
-                        </span>
-                      </button>
-                    )}
+                    <FormField
+                      control={form.control}
+                      name="lastName"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Last Name</FormLabel>
+                          <FormControl>
+                            <Input
+                              type="text"
+                              placeholder="Doe"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
                   </div>
-                </div>
 
-                <Input
-                  label="Confirm Password"
-                  type="password"
-                  placeholder="••••••••"
-                  value={formData.confirmPassword}
-                  onChange={(e) => handleChange('confirmPassword', e.target.value)}
-                  onBlur={() => handleBlur('confirmPassword')}
-                  error={errors.confirmPassword}
-                  required
-                />
+                  <FormField
+                    control={form.control}
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Email</FormLabel>
+                        <FormControl>
+                          <Input
+                            type="email"
+                            icon="mail"
+                            placeholder="name@company.com"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-                <Input
-                  label="Mobile"
-                  type="tel"
-                  icon="phone"
-                  placeholder="+1 (555) 123-4567"
-                  value={formData.mobile}
-                  onChange={(e) => handleChange('mobile', e.target.value)}
-                />
+                  <FormField
+                    control={form.control}
+                    name="password"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>
+                          Password
+                          <span className="text-red-500 ml-1">*</span>
+                        </FormLabel>
+                        <FormControl>
+                          <div className="relative group">
+                            <Input
+                              type={showPassword ? 'text' : 'password'}
+                              placeholder="••••••••"
+                              autoComplete="new-password"
+                              {...field}
+                            />
+                            {field.value && field.value.length > 0 && (
+                              <button
+                                type="button"
+                                onClick={() => setShowPassword(!showPassword)}
+                                className="absolute right-4 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-neutral-600 focus:outline-none dark:hover:text-neutral-200 transition-colors"
+                              >
+                                <span className="material-symbols-outlined text-[20px]">
+                                  {showPassword ? 'visibility' : 'visibility_off'}
+                                </span>
+                              </button>
+                            )}
+                          </div>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-                <Select
-                  label="Registration Type"
-                  options={registrationTypeOptions}
-                  value={formData.registrationType}
-                  onChange={(value) => handleChange('registrationType', value)}
-                  placeholder="Select type"
-                  required
-                />
+                  <FormField
+                    control={form.control}
+                    name="confirmPassword"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Confirm Password</FormLabel>
+                        <FormControl>
+                          <Input
+                            type="password"
+                            placeholder="••••••••"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-                <Select
-                  label="Primary License Type"
-                  options={licenseTypeOptions}
-                  value={formData.primaryLicenseType}
-                  onChange={(value) => handleChange('primaryLicenseType', value)}
-                  placeholder="Select license type"
-                />
+                  <FormField
+                    control={form.control}
+                    name="mobile"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Mobile</FormLabel>
+                        <FormControl>
+                          <Input
+                            type="tel"
+                            icon="phone"
+                            placeholder="+1 (555) 123-4567"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-                <Select
-                  label="Resident State"
-                  options={regionOptions}
-                  value={formData.residentState}
-                  onChange={(value) => handleChange('residentState', value)}
-                  placeholder="Select state"
-                />
+                  <FormField
+                    control={form.control}
+                    name="registrationType"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Registration Type</FormLabel>
+                        <FormControl>
+                          <Select
+                            options={[
+                              { value: 'INDIVIDUAL', label: 'Individual' },
+                              { value: 'BUSINESS', label: 'Business' },
+                            ]}
+                            value={field.value || ''}
+                            onChange={field.onChange}
+                            placeholder="Select type"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-                <Button
-                  type="submit"
-                  isLoading={isLoading}
-                  className="mt-2 flex w-full items-center justify-center"
-                >
-                  <span className="flex items-center gap-2">
-                    Sign Up
-                    <span className="material-symbols-outlined text-[18px]">
-                      arrow_forward
+                  <FormField
+                    control={form.control}
+                    name="primaryLicenseType"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Primary License Type</FormLabel>
+                        <FormControl>
+                          <Select
+                            options={licenseTypes?.map((lt) => ({
+                              value: lt.id,
+                              label: lt.label,
+                            })) || []}
+                            value={field.value || ''}
+                            onChange={field.onChange}
+                            placeholder="Select license type"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="residentState"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Resident State</FormLabel>
+                        <FormControl>
+                          <Select
+                            options={regions?.map((r) => ({
+                              value: r.id,
+                              label: r.label,
+                            })) || []}
+                            value={field.value || ''}
+                            onChange={field.onChange}
+                            placeholder="Select state"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <Button
+                    type="submit"
+                    isLoading={isLoading}
+                    className="mt-2 flex w-full items-center justify-center"
+                  >
+                    <span className="flex items-center gap-2">
+                      Sign Up
+                      <span className="material-symbols-outlined text-[18px]">
+                        arrow_forward
+                      </span>
                     </span>
-                  </span>
-                </Button>
-              </form>
+                  </Button>
+                </form>
+              </Form>
             </div>
           </div>
 

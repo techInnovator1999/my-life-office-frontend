@@ -49,7 +49,6 @@ export function OpportunityCard({ opportunity, onClick, categoryId }: Opportunit
     : 'Unknown Contact'
 
   const temperature = opportunity.temperature || Temperature.UNKNOWN
-  const temperatureColor = temperatureColors[temperature]
 
   const formatCurrency = (amount: number | null | undefined) => {
     if (!amount) return null

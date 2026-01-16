@@ -2,7 +2,7 @@
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import * as opportunityService from '@/services/opportunityService'
-import type { Opportunity, CreateOpportunityDto, UpdateOpportunityDto, PipelineStage } from './types'
+import type { CreateOpportunityDto, UpdateOpportunityDto, PipelineStage } from './types'
 import { opportunityKeys } from './index'
 
 /**

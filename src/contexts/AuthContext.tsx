@@ -1,6 +1,6 @@
 'use client'
 
-import { createContext, useContext, useEffect, ReactNode } from 'react'
+import { createContext, useContext, ReactNode } from 'react'
 import { useRouter } from 'next/navigation'
 import { useLogin, useLogout, useCurrentUser } from '@/provider/auth'
 import type { LoginResponse } from '@/provider/auth/types'

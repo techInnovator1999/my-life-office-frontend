@@ -71,6 +71,23 @@ export const resetPasswordSchema = z.object({
 export type ResetPasswordFormData = z.infer<typeof resetPasswordSchema>
 
 /**
+ * Verify reset code form validation schema
+ */
+export const verifyResetCodeSchema = z.object({
+  email: z
+    .string()
+    .min(1, 'This field is required')
+    .email('Please enter a valid email address'),
+  code: z
+    .string()
+    .min(1, 'This field is required')
+    .length(6, 'Verification code must be 6 digits')
+    .regex(/^\d+$/, 'Verification code must contain only numbers'),
+})
+
+export type VerifyResetCodeFormData = z.infer<typeof verifyResetCodeSchema>
+
+/**
  * Profile update form validation schema
  */
 export const profileUpdateSchema = z.object({
