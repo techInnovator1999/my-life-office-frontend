@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -14,7 +14,22 @@ import { AuthVisualSection } from '@/components/common/AuthVisualSection'
 
 export default function ForgotPasswordPage() {
   const [isSuccess, setIsSuccess] = useState(false)
+  const [isDark, setIsDark] = useState(false)
   const forgotPasswordMutation = useForgotPassword()
+
+  // Detect theme changes
+  useEffect(() => {
+    const checkTheme = () => {
+      setIsDark(document.documentElement.classList.contains('dark'))
+    }
+    checkTheme()
+    const observer = new MutationObserver(checkTheme)
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class'],
+    })
+    return () => observer.disconnect()
+  }, [])
 
   const form = useForm<ForgotPasswordFormData>({
     resolver: zodResolver(forgotPasswordSchema),
@@ -36,7 +51,7 @@ export default function ForgotPasswordPage() {
   }
 
   return (
-    <div className="flex h-screen w-full flex-row overflow-hidden font-display text-gray-900 dark:text-white antialiased" style={{ backgroundColor: '#eaeef7' }}>
+    <div className="flex h-screen w-full flex-row overflow-hidden font-display text-gray-900 dark:text-white antialiased bg-gray-50 dark:bg-slate-900">
       {/* Left Side: Form Section */}
       <div className="relative flex w-full flex-col justify-center lg:w-[50%] z-10">
         <div className="flex h-full w-full flex-col overflow-y-auto no-scrollbar">
@@ -44,10 +59,10 @@ export default function ForgotPasswordPage() {
             <div className="mx-auto w-full max-w-[480px]">
               <div className="flex flex-col gap-2 items-center mb-8">
                 <Image
-                  src="/logo-main.png"
+                  src={isDark ? '/logo-main-light.png' : '/logo-main.png'}
                   alt="CRM Logo"
-                  width={200}
-                  height={60}
+                  width={268}
+                  height={isDark ? 64 : 48}
                   className="mb-2 object-contain"
                   suppressHydrationWarning
                 />
@@ -56,7 +71,7 @@ export default function ForgotPasswordPage() {
                 </h1>
               </div>
               {/* Card Container */}
-              <div className="bg-white dark:bg-surface-dark rounded-xl shadow-lg border border-neutral-200 dark:border-slate-700 p-8">
+              <div className="bg-white dark:bg-slate-800 rounded-xl shadow-lg border border-neutral-200 dark:border-slate-700 p-8">
                 <div className="flex flex-col gap-6">
 
                   {isSuccess ? (

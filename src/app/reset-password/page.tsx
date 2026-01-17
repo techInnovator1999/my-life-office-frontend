@@ -20,6 +20,7 @@ function ResetPasswordForm() {
   const [step, setStep] = useState<'verify' | 'reset'>('verify')
   const [verifiedEmail, setVerifiedEmail] = useState('')
   const [verifiedCode, setVerifiedCode] = useState('')
+  const [isDark, setIsDark] = useState(false)
   
   const verifyForm = useForm<VerifyResetCodeFormData>({
     resolver: zodResolver(verifyResetCodeSchema),
@@ -46,6 +47,20 @@ function ResetPasswordForm() {
       verifyForm.setValue('email', emailParam)
     }
   }, [searchParams, verifyForm])
+
+  // Detect theme changes
+  useEffect(() => {
+    const checkTheme = () => {
+      setIsDark(document.documentElement.classList.contains('dark'))
+    }
+    checkTheme()
+    const observer = new MutationObserver(checkTheme)
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class'],
+    })
+    return () => observer.disconnect()
+  }, [])
 
   const onVerifyCode = async (data: VerifyResetCodeFormData) => {
     try {
@@ -74,7 +89,7 @@ function ResetPasswordForm() {
   }
 
   return (
-    <div className="flex h-screen w-full flex-row overflow-hidden font-display text-gray-900 dark:text-white antialiased" style={{ backgroundColor: '#eaeef7' }}>
+    <div className="flex h-screen w-full flex-row overflow-hidden font-display text-gray-900 dark:text-white antialiased bg-gray-50 dark:bg-slate-900">
       {/* Left Side: Form Section */}
       <div className="relative flex w-full flex-col justify-center lg:w-[50%] z-10">
         <div className="flex h-full w-full flex-col overflow-y-auto no-scrollbar">
@@ -82,10 +97,10 @@ function ResetPasswordForm() {
             <div className="mx-auto w-full max-w-[480px]">
               <div className="flex flex-col gap-2 items-center mb-8">
                 <Image
-                  src="/logo-main.png"
+                  src={isDark ? '/logo-main-light.png' : '/logo-main.png'}
                   alt="CRM Logo"
-                  width={200}
-                  height={60}
+                  width={268}
+                  height={isDark ? 64 : 48}
                   className="mb-2 object-contain"
                   suppressHydrationWarning
                 />
@@ -94,7 +109,7 @@ function ResetPasswordForm() {
                 </h1>
               </div>
               {/* Card Container */}
-              <div className="bg-white dark:bg-surface-dark rounded-xl shadow-lg border border-neutral-200 dark:border-slate-700 p-8">
+              <div className="bg-white dark:bg-slate-800 rounded-xl shadow-lg border border-neutral-200 dark:border-slate-700 p-8">
                 <div className="flex flex-col gap-6">
 
                   {step === 'verify' ? (
