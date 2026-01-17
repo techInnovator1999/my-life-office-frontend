@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
@@ -21,7 +21,7 @@ import { useLogin, useConfirmEmail } from "@/provider/auth";
 import Image from "next/image";
 import { AuthVisualSection } from "@/components/common/AuthVisualSection";
 
-export default function LoginPage() {
+function LoginForm() {
   const router = useRouter();
   const { login: authLogin } = useAuth();
   const loginMutation = useLogin();
@@ -433,5 +433,17 @@ export default function LoginPage() {
       {/* Right Side: Visual Section */}
       <AuthVisualSection />
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={
+      <div className="flex min-h-screen items-center justify-center">
+        <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+      </div>
+    }>
+      <LoginForm />
+    </Suspense>
   );
 }

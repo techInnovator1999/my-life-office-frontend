@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { Button } from '@/components/common/Button'
@@ -9,7 +9,7 @@ import { AuthVisualSection } from '@/components/common/AuthVisualSection'
 import { useConfirmEmail } from '@/provider/auth'
 import Image from 'next/image'
 
-export default function VerifyEmailPage() {
+function VerifyEmailForm() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const email = searchParams.get('email') || ''
@@ -173,5 +173,17 @@ export default function VerifyEmailPage() {
       {/* Right Side: Visual Section */}
       <AuthVisualSection />
     </div>
+  )
+}
+
+export default function VerifyEmailPage() {
+  return (
+    <Suspense fallback={
+      <div className="flex min-h-screen items-center justify-center">
+        <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+      </div>
+    }>
+      <VerifyEmailForm />
+    </Suspense>
   )
 }
