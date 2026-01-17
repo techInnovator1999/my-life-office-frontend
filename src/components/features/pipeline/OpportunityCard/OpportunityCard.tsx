@@ -75,13 +75,13 @@ export function OpportunityCard({ opportunity, onClick, categoryId }: Opportunit
       {...attributes}
       {...listeners}
       onClick={onClick}
-      className={`bg-white dark:bg-surface-dark p-4 rounded-lg shadow-sm border ${borderClass} hover:shadow-md transition-colors group ${
+      className={`bg-white dark:bg-slate-800 p-4 rounded-lg shadow-sm border ${borderClass} hover:shadow-md transition-colors group ${
         opportunity.isLocked ? 'cursor-not-allowed opacity-60' : 'cursor-grab active:cursor-grabbing'
       }`}
     >
       {/* Header: Name and Temperature */}
       <div className="flex items-start justify-between mb-3">
-        <h3 className="text-sm font-semibold text-text-main dark:text-white line-clamp-2 flex-1 pr-2">
+        <h3 className="text-sm font-semibold text-gray-900 dark:text-white line-clamp-2 flex-1 pr-2">
           {opportunity.name}
         </h3>
         {opportunity.temperature && (

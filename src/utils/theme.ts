@@ -4,7 +4,9 @@
  * Helper functions for theme management
  */
 
-export type Theme = 'light' | 'dark'
+import type { Theme } from '@/types/common'
+
+export type { Theme }
 
 /**
  * Get current theme from localStorage or system preference
@@ -31,6 +33,12 @@ export function applyTheme(theme: Theme): void {
     root.classList.add('dark')
   } else {
     root.classList.remove('dark')
+  }
+  
+  // Update theme-color meta tag for browser UI
+  const metaTheme = document.querySelector('meta[name="theme-color"]')
+  if (metaTheme) {
+    metaTheme.setAttribute('content', theme === 'dark' ? '#0f172a' : '#f7f6f8')
   }
   
   localStorage.setItem('theme', theme)

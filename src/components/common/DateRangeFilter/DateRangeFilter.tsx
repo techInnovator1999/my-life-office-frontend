@@ -38,17 +38,17 @@ export function DateRangeFilter({
         onClick={() => setIsOpen(!isOpen)}
         className={cn(
           'flex items-center gap-2 px-3 py-2',
-          'bg-white dark:bg-surface-dark',
+          'bg-white dark:bg-slate-800',
           'border border-neutral-200 dark:border-slate-700',
           'rounded-md text-xs font-medium',
-          'text-text-main dark:text-white',
+          'text-gray-900 dark:text-white',
           'hover:bg-neutral-50 dark:hover:bg-slate-700',
           'focus:outline-none focus:ring-2 focus:ring-primary/20',
           'transition-colors'
         )}
       >
         <span>{displayLabel}</span>
-        <span className="material-symbols-outlined text-[16px] text-text-muted dark:text-text-muted-dark">
+        <span className="material-symbols-outlined text-[16px] text-gray-600 dark:text-slate-400">
           {isOpen ? 'expand_less' : 'expand_more'}
         </span>
       </button>
@@ -62,9 +62,9 @@ export function DateRangeFilter({
       )}
 
       {isOpen && (
-        <div className="absolute top-full left-0 mt-1 w-64 bg-white dark:bg-surface-dark rounded-lg shadow-xl border border-neutral-200 dark:border-slate-700 z-50 p-4">
+        <div className="absolute top-full left-0 mt-1 w-64 bg-white dark:bg-slate-800 rounded-lg shadow-xl border border-neutral-200 dark:border-slate-700 z-50 p-4">
           <div className="space-y-2">
-            <label className="block text-xs font-medium text-text-muted dark:text-text-muted-dark mb-1">
+            <label className="block text-xs font-medium text-gray-600 dark:text-slate-400 mb-1">
               {placeholder}
             </label>
             <input
@@ -77,8 +77,8 @@ export function DateRangeFilter({
               className={cn(
                 'w-full px-3 py-2',
                 'border border-neutral-200 dark:border-slate-700',
-                'rounded-md bg-white dark:bg-surface-dark',
-                'text-text-main dark:text-white',
+                'rounded-md bg-white dark:bg-slate-800',
+                'text-gray-900 dark:text-white',
                 'focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/10',
                 'transition-colors text-sm'
               )}

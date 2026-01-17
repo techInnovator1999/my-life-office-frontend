@@ -5,47 +5,9 @@
  */
 
 import api from './api'
+import type { LoginCredentials, LoginResponse } from '@/types/auth'
 
-type LoginCredentials = {
-  email: string
-  password: string
-}
-
-export type UserStatus = {
-  id: string
-  name?: string
-}
-
-export type UserRole = {
-  id: string
-  name?: string
-}
-
-export type LoginResponse = {
-  token: string
-  refreshToken: string
-  tokenExpires: number
-  user: {
-    id: string
-    firstName: string
-    lastName: string
-    email: string
-    mobile?: string | null
-    registrationType?: string | null
-    primaryLicenseType?: string | null
-    residentState?: string | null
-    licenseNumber?: string | null
-    yearsLicensed?: number | null
-    priorProductsSold?: string | null
-    currentCompany?: string | null
-    createdAt?: string | Date | null
-    role: UserRole
-    status: UserStatus
-    isApproved: boolean
-    verificationCode?: string | null
-    verificationExpires?: Date | null
-  }
-}
+export type { LoginCredentials, LoginResponse }
 
 /**
  * Login user with email and password
@@ -159,5 +121,25 @@ export async function verifyPasswordResetCode(email: string, code: string): Prom
  */
 export async function resetPassword(email: string, password: string, code: string): Promise<void> {
   await api.post('/auth/reset/password', { email, password, code })
+}
+
+/**
+ * Register new CRM agent
+ */
+export type RegisterCredentials = {
+  firstName: string
+  lastName: string
+  email: string
+  password: string
+  confirmPassword: string
+  primaryLicenseType: string
+}
+
+export async function register(credentials: RegisterCredentials): Promise<void> {
+  const { confirmPassword, ...rest } = credentials
+  await api.post('/auth/crm/register', {
+    ...rest,
+    confirm_password: confirmPassword,
+  })
 }
 

@@ -8,11 +8,34 @@ import api from './api'
 import type { Contact, CreateContactDto, UpdateContactDto } from '@/provider/contacts/types'
 
 /**
+ * Paginated response type from backend
+ */
+type PaginatedResponse<T> = {
+  data: T[]
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+  total: number
+}
+
+/**
  * Get all contacts for current user
  */
 export async function getContacts(): Promise<Contact[]> {
-  const response = await api.get<Contact[]>('/contacts')
-  return response.data
+  const response = await api.get<PaginatedResponse<Contact> | Contact[]>('/contacts')
+  
+  // Handle paginated response: { data: [...], hasNextPage, hasPreviousPage, total }
+  if (response.data && typeof response.data === 'object' && 'data' in response.data && Array.isArray(response.data.data)) {
+    return response.data.data
+  }
+  
+  // If response.data is already an array, return it
+  if (Array.isArray(response.data)) {
+    return response.data
+  }
+  
+  // Fallback to empty array if structure is unexpected
+  console.warn('Unexpected contacts API response structure:', response.data)
+  return []
 }
 
 /**

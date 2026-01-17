@@ -73,13 +73,13 @@ export function Header({ onMenuClick }: HeaderProps) {
     : 'U'
 
   return (
-    <header className="h-16 bg-white dark:bg-surface-dark border-b border-neutral-200 dark:border-slate-700 px-4 lg:px-8 flex items-center justify-between sticky top-0 z-50">
+    <header className="h-16 bg-white dark:bg-slate-800 border-b border-neutral-200 dark:border-slate-700 px-4 lg:px-8 flex items-center justify-between sticky top-0 z-50">
       {/* Left Section: Mobile Menu Button */}
       <div className="flex items-center gap-4">
         {/* Mobile Menu Button */}
         <button
           onClick={onMenuClick}
-          className="lg:hidden size-9 flex items-center justify-center rounded-md bg-white dark:bg-surface-dark border border-neutral-200 dark:border-slate-700 text-neutral-600 dark:text-text-muted-dark hover:text-neutral-900 dark:hover:text-white hover:bg-neutral-50 dark:hover:bg-slate-700 transition-colors"
+          className="lg:hidden size-9 flex items-center justify-center rounded-md bg-white dark:bg-slate-800 border border-neutral-200 dark:border-slate-700 text-neutral-600 dark:text-slate-400 hover:text-neutral-900 dark:hover:text-white hover:bg-neutral-50 dark:hover:bg-slate-700 transition-colors"
           aria-label="Toggle menu"
         >
           <span className="material-symbols-outlined text-[20px]">menu</span>
@@ -92,9 +92,9 @@ export function Header({ onMenuClick }: HeaderProps) {
           <input
             type="search"
             placeholder="Search..."
-            className="w-full px-4 py-2.5 pl-10 border border-neutral-200 dark:border-slate-700 rounded-md bg-white dark:bg-surface-dark text-neutral-900 dark:text-white placeholder:text-neutral-400 dark:placeholder:text-text-muted-dark focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/10 transition-colors duration-200"
+            className="w-full px-4 py-2.5 pl-10 border border-neutral-200 dark:border-slate-700 rounded-md bg-white dark:bg-slate-800 text-neutral-900 dark:text-white placeholder:text-neutral-400 dark:placeholder:text-slate-400 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/10 transition-colors duration-200"
           />
-          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400 group-focus-within:text-primary transition-colors">
+          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-600 dark:text-gray-400 group-focus-within:text-primary transition-colors">
             <span className="material-symbols-outlined text-[18px]">search</span>
           </span>
         </div>
@@ -105,7 +105,7 @@ export function Header({ onMenuClick }: HeaderProps) {
         {/* Theme Toggle */}
         <button
           onClick={handleThemeToggle}
-          className="size-9 flex items-center justify-center rounded-md bg-white dark:bg-surface-dark border border-neutral-200 dark:border-slate-700 text-neutral-600 dark:text-text-muted-dark hover:text-neutral-900 dark:hover:text-white hover:bg-neutral-50 dark:hover:bg-slate-700 transition-colors"
+          className="size-9 flex items-center justify-center rounded-md bg-white dark:bg-slate-800 border border-neutral-200 dark:border-slate-700 text-neutral-600 dark:text-slate-400 hover:text-neutral-900 dark:hover:text-white hover:bg-neutral-50 dark:hover:bg-slate-700 transition-colors"
           aria-label="Toggle theme"
         >
           <span className="material-symbols-outlined text-[20px]" suppressHydrationWarning>
@@ -117,21 +117,21 @@ export function Header({ onMenuClick }: HeaderProps) {
         <div className="relative" ref={notificationsRef}>
           <button
             onClick={() => setIsNotificationsOpen(!isNotificationsOpen)}
-            className="relative size-10 flex items-center justify-center rounded-md bg-white dark:bg-surface-dark border border-neutral-200 dark:border-slate-700 text-neutral-600 dark:text-text-muted-dark hover:text-neutral-900 dark:hover:text-white hover:bg-neutral-50 dark:hover:bg-slate-700 transition-colors"
+            className="relative size-10 flex items-center justify-center rounded-md bg-white dark:bg-slate-800 border border-neutral-200 dark:border-slate-700 text-neutral-600 dark:text-slate-400 hover:text-neutral-900 dark:hover:text-white hover:bg-neutral-50 dark:hover:bg-slate-700 transition-colors"
             aria-label="Notifications"
           >
             <span className="material-symbols-outlined text-[20px]">notifications</span>
             {/* Notification Badge */}
-            <span className="absolute top-1 right-1 size-2 bg-red-500 rounded-full border-2 border-white dark:border-surface-dark"></span>
+            <span className="absolute top-1 right-1 size-2 bg-red-500 rounded-full border-2 border-white dark:border-slate-800"></span>
           </button>
 
           {/* Notifications Dropdown */}
           {isNotificationsOpen && (
-            <div className="absolute right-0 top-full mt-2 w-80 bg-white dark:bg-surface-dark rounded-lg shadow-md border border-neutral-200 dark:border-slate-700 overflow-hidden z-50">
+            <div className="absolute right-0 top-full mt-2 w-80 bg-white dark:bg-slate-800 rounded-lg shadow-md border border-neutral-200 dark:border-slate-700 overflow-hidden z-50">
               <div className="p-4 border-b border-neutral-200 dark:border-slate-700">
-                <h3 className="font-semibold text-text-main dark:text-white">Notifications</h3>
+                <h3 className="font-semibold text-gray-900 dark:text-white">Notifications</h3>
               </div>
-              <div className="p-4 text-center text-sm text-text-muted dark:text-text-muted-dark">
+              <div className="p-4 text-center text-sm text-gray-600 dark:text-slate-400">
                 No new notifications
               </div>
             </div>
@@ -150,24 +150,24 @@ export function Header({ onMenuClick }: HeaderProps) {
             </div>
             {/* User Name - Hidden on mobile */}
             <div className="hidden md:block text-left">
-              <p className="text-sm font-semibold text-text-main dark:text-white">
+              <p className="text-sm font-semibold text-gray-900 dark:text-white">
                 {formatFullName(user?.firstName, user?.lastName)}
               </p>
             </div>
-            <span className="material-symbols-outlined text-[20px] text-text-muted dark:text-text-muted-dark">
+            <span className="material-symbols-outlined text-[20px] text-gray-600 dark:text-slate-400">
               expand_more
             </span>
           </button>
 
           {/* User Dropdown Menu */}
           {isUserMenuOpen && (
-            <div className="absolute right-0 top-full mt-2 w-56 bg-white dark:bg-surface-dark rounded-lg shadow-md border border-neutral-200 dark:border-slate-700 overflow-hidden z-50">
+            <div className="absolute right-0 top-full mt-2 w-56 bg-white dark:bg-slate-800 rounded-lg shadow-md border border-neutral-200 dark:border-slate-700 overflow-hidden z-50">
               <div className="p-2">
                 <div className="px-3 py-2 border-b border-neutral-200 dark:border-slate-700 mb-2">
-                  <p className="text-sm font-semibold text-text-main dark:text-white">
+                  <p className="text-sm font-semibold text-gray-900 dark:text-white">
                     {formatFullName(user?.firstName, user?.lastName)}
                   </p>
-                  <p className="text-xs text-text-muted dark:text-text-muted-dark mt-0.5">{user?.email}</p>
+                  <p className="text-xs text-gray-600 dark:text-slate-400 mt-0.5">{user?.email}</p>
                 </div>
                 <button
                   onClick={() => {
@@ -176,10 +176,10 @@ export function Header({ onMenuClick }: HeaderProps) {
                   }}
                   className="w-full flex items-center gap-2 px-2 py-1.5 rounded-md hover:bg-neutral-50 dark:hover:bg-slate-700 transition-colors text-left"
                 >
-                  <span className="material-symbols-outlined text-[20px] text-text-muted dark:text-text-muted-dark">
+                  <span className="material-symbols-outlined text-[20px] text-gray-600 dark:text-slate-400">
                     person
                   </span>
-                  <span className="text-sm text-text-main dark:text-white">Profile</span>
+                  <span className="text-sm text-gray-900 dark:text-white">Profile</span>
                 </button>
                 <button
                   onClick={() => {
@@ -188,10 +188,10 @@ export function Header({ onMenuClick }: HeaderProps) {
                   }}
                   className="w-full flex items-center gap-2 px-2 py-1.5 rounded-md hover:bg-neutral-50 dark:hover:bg-slate-700 transition-colors text-left"
                 >
-                  <span className="material-symbols-outlined text-[20px] text-text-muted dark:text-text-muted-dark">
+                  <span className="material-symbols-outlined text-[20px] text-gray-600 dark:text-slate-400">
                     lock_reset
                   </span>
-                  <span className="text-sm text-text-main dark:text-white">Reset Password</span>
+                  <span className="text-sm text-gray-900 dark:text-white">Reset Password</span>
                 </button>
                 <button
                   onClick={handleLogout}

@@ -2,25 +2,9 @@
 
 import { useState, useRef, useEffect } from 'react'
 import { cn } from '@/lib/utils'
+import type { SelectProps, SelectOption } from '@/types/ui'
 
-export type SelectOption = {
-  value: string
-  label: string
-}
-
-export type SelectProps = {
-  label?: string
-  icon?: string
-  options: SelectOption[]
-  value?: string
-  onChange: (value: string) => void
-  onBlur?: () => void
-  error?: string
-  required?: boolean
-  placeholder?: string
-  searchable?: boolean
-  disabled?: boolean
-}
+export type { SelectProps, SelectOption }
 
 export function Select({
   label,
@@ -76,10 +60,10 @@ export function Select({
   const inputClasses = cn(
     'w-full rounded-md border border-neutral-200 dark:border-slate-700',
     disabled
-      ? 'bg-neutral-100 dark:bg-slate-800 text-neutral-500 dark:text-text-muted-dark cursor-not-allowed'
-      : 'bg-white dark:bg-surface-dark text-neutral-900 dark:text-white cursor-pointer',
+      ? 'bg-neutral-100 dark:bg-slate-800 text-neutral-500 dark:text-slate-400 cursor-not-allowed'
+      : 'bg-white dark:bg-slate-800 text-neutral-900 dark:text-white cursor-pointer',
     'px-4 py-2.5 text-base font-normal',
-    'placeholder:text-neutral-400 dark:placeholder:text-text-muted-dark',
+    'placeholder:text-neutral-400 dark:placeholder:text-gray-600-dark',
     disabled
       ? ''
       : 'focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/10',
@@ -90,14 +74,14 @@ export function Select({
   // Custom icon positioned on the LEFT to avoid conflict with dropdown arrow
   const customIconClasses = cn(
     'absolute left-3 top-1/2 -translate-y-1/2',
-    'text-neutral-400 group-focus-within:text-primary',
+    'text-gray-600 dark:text-gray-400 group-focus-within:text-primary',
     'transition-colors pointer-events-none'
   )
 
   // Dropdown arrow always on the RIGHT
   const dropdownIconClasses = cn(
     'absolute right-3 top-1/2 -translate-y-1/2',
-    'text-neutral-400 group-focus-within:text-primary',
+    'text-gray-600 dark:text-gray-400 group-focus-within:text-primary',
     'transition-colors pointer-events-none'
   )
 
@@ -122,7 +106,7 @@ export function Select({
           className={inputClasses}
         >
           <div className={cn('flex items-center justify-between', icon ? 'pl-9' : '', 'pr-6')}>
-            <span className={selectedOption ? 'text-neutral-900 dark:text-white' : 'text-neutral-400 dark:text-text-muted-dark'}>
+            <span className={selectedOption ? 'text-neutral-900 dark:text-white' : 'text-neutral-400 dark:text-slate-400'}>
               {selectedOption ? selectedOption.label : placeholder}
             </span>
           </div>
@@ -139,7 +123,7 @@ export function Select({
         </span>
 
         {isOpen && (
-          <div className="absolute top-full left-0 mt-1 w-full bg-white dark:bg-surface-dark rounded-lg shadow-xl border border-neutral-200 dark:border-slate-700 z-50 overflow-hidden">
+          <div className="absolute top-full left-0 mt-1 w-full bg-white dark:bg-slate-800 rounded-lg shadow-xl border border-neutral-200 dark:border-slate-700 z-50 overflow-hidden">
             {searchable && (
               <div className="p-2 border-b border-neutral-200 dark:border-slate-700">
                 <input
@@ -147,14 +131,14 @@ export function Select({
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   placeholder="Search..."
-                  className="w-full px-3 py-2 rounded-md border border-neutral-200 dark:border-slate-700 bg-white dark:bg-surface-dark text-sm text-neutral-900 dark:text-white placeholder:text-neutral-400 dark:placeholder:text-text-muted-dark focus:outline-none focus:ring-2 focus:ring-primary/10"
+                  className="w-full px-3 py-2 rounded-md border border-neutral-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm text-neutral-900 dark:text-white placeholder:text-neutral-400 dark:placeholder:text-gray-600-dark focus:outline-none focus:ring-2 focus:ring-primary/10"
                   onClick={(e) => e.stopPropagation()}
                 />
               </div>
             )}
             <div className="max-h-64 overflow-y-auto auto-scrollbar">
               {filteredOptions.length === 0 ? (
-                <div className="px-4 py-3 text-sm text-neutral-500 dark:text-neutral-400 text-center">
+                <div className="px-4 py-3 text-sm text-gray-700 dark:text-gray-300 text-center">
                   No options found
                 </div>
               ) : (

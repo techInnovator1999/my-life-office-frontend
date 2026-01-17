@@ -79,10 +79,10 @@ export function FilterDropdown({
         onClick={() => setIsOpen(!isOpen)}
         className={cn(
           'flex items-center gap-2 px-3 py-2',
-          'bg-white dark:bg-surface-dark',
+          'bg-white dark:bg-slate-800',
           'border border-neutral-200 dark:border-slate-700',
           'rounded-md text-xs font-medium',
-          'text-text-main dark:text-white',
+          'text-gray-900 dark:text-white',
           'hover:bg-neutral-50 dark:hover:bg-slate-700',
           'focus:outline-none focus:ring-2 focus:ring-primary/20',
           'transition-colors'
@@ -103,7 +103,7 @@ export function FilterDropdown({
       )}
 
       {isOpen && (
-        <div className="absolute top-full left-0 mt-1 w-64 bg-white dark:bg-surface-dark rounded-lg shadow-xl border border-neutral-200 dark:border-slate-700 z-50 overflow-hidden">
+        <div className="absolute top-full left-0 mt-1 w-64 bg-white dark:bg-slate-800 rounded-lg shadow-xl border border-neutral-200 dark:border-slate-700 z-50 overflow-hidden">
           {/* Select Mode Toggle - Always show */}
           <div className="p-3 border-b border-neutral-200 dark:border-slate-700 flex items-center gap-4 bg-neutral-50 dark:bg-slate-800/50">
             <label className="flex items-center gap-2 cursor-pointer">
@@ -114,7 +114,7 @@ export function FilterDropdown({
                 onChange={() => handleModeChange('one')}
                 className="w-4 h-4 text-primary focus:ring-primary cursor-pointer"
               />
-              <span className="text-sm font-medium text-text-main dark:text-white">Select One</span>
+              <span className="text-sm font-medium text-gray-900 dark:text-white">Select One</span>
             </label>
             <label className="flex items-center gap-2 cursor-pointer">
               <input
@@ -124,7 +124,7 @@ export function FilterDropdown({
                 onChange={() => handleModeChange('many')}
                 className="w-4 h-4 text-primary focus:ring-primary cursor-pointer"
               />
-              <span className="text-sm font-medium text-text-main dark:text-white">Select Many</span>
+              <span className="text-sm font-medium text-gray-900 dark:text-white">Select Many</span>
             </label>
           </div>
 

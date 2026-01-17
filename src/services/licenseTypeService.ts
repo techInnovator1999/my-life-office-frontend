@@ -5,17 +5,9 @@
  */
 
 import api from './api'
+import type { LicenseType } from '@/types/lookup'
 
-export type LicenseType = {
-  id: string
-  label: string
-  value: string
-  order: number
-  isActive: boolean
-  createdAt: string
-  updatedAt: string
-  deletedAt?: string | null
-}
+export type { LicenseType }
 
 /**
  * Get all license types

@@ -5,17 +5,9 @@
  */
 
 import api from './api'
+import type { ProductSold } from '@/types/lookup'
 
-export type ProductSold = {
-  id: string
-  label: string
-  value: string
-  order: number
-  isActive: boolean
-  createdAt: string
-  updatedAt: string
-  deletedAt?: string | null
-}
+export type { ProductSold }
 
 /**
  * Get all products sold

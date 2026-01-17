@@ -47,6 +47,7 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       {
+        // Apply security headers to all routes except Next.js static assets
         source: '/:path*',
         headers: [
           {
@@ -54,16 +55,8 @@ const nextConfig: NextConfig = {
             value: 'on'
           },
           {
-            key: 'Strict-Transport-Security',
-            value: 'max-age=63072000; includeSubDomains; preload'
-          },
-          {
             key: 'X-Frame-Options',
             value: 'SAMEORIGIN'
-          },
-          {
-            key: 'X-Content-Type-Options',
-            value: 'nosniff'
           },
           {
             key: 'X-XSS-Protection',

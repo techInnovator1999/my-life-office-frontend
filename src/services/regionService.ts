@@ -5,18 +5,9 @@
  */
 
 import api from './api'
+import type { Region } from '@/types/lookup'
 
-export type Region = {
-  id: string
-  label: string
-  value: string
-  code?: string
-  order: number
-  isActive: boolean
-  createdAt: string
-  updatedAt: string
-  deletedAt?: string | null
-}
+export type { Region }
 
 /**
  * Get all regions/states

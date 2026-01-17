@@ -119,24 +119,49 @@ export function KanbanBoard({
       onOpportunityMove(opportunityId, newStage)
     }
 
-    // Update in backend
-    try {
-      await updateStageMutation.mutateAsync({ id: opportunityId, stage: newStage })
-    } catch (error) {
-      // Revert on error
-      const revertedGrouped: Record<PipelineStage, Opportunity[]> = {
-        [PipelineStage.LEADS_INTEREST]: [],
-        [PipelineStage.PROSPECT_QUOTE]: [],
-        [PipelineStage.PROSPECT_APP_SIGNED]: [],
-        [PipelineStage.PROSPECT_UNDERWRITING]: [],
-        [PipelineStage.CLIENT_WON_IN_FORCE]: [],
-        [PipelineStage.LOST_LOST]: [],
+    // Update in backend (only if ID is a valid UUID)
+    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+    const isRealOpportunity = uuidRegex.test(opportunityId)
+
+    if (isRealOpportunity) {
+      try {
+        // Ensure newStage is a valid PipelineStage enum value
+        const validStage = Object.values(PipelineStage).includes(newStage as PipelineStage)
+          ? (newStage as PipelineStage)
+          : null
+
+        if (!validStage) {
+          throw new Error(`Invalid stage: ${newStage}`)
+        }
+
+        await updateStageMutation.mutateAsync({ id: opportunityId, stage: validStage })
+      } catch (error: any) {
+        // Revert on error
+        const revertedGrouped: Record<PipelineStage, Opportunity[]> = {
+          [PipelineStage.LEADS_INTEREST]: [],
+          [PipelineStage.PROSPECT_QUOTE]: [],
+          [PipelineStage.PROSPECT_APP_SIGNED]: [],
+          [PipelineStage.PROSPECT_UNDERWRITING]: [],
+          [PipelineStage.CLIENT_WON_IN_FORCE]: [],
+          [PipelineStage.LOST_LOST]: [],
+        }
+        opportunities.forEach((opp) => {
+          revertedGrouped[opp.pipelineStage].push(opp)
+        })
+        setGroupedOpportunities(revertedGrouped)
+        
+        // Log detailed error information
+        console.error('Failed to update opportunity stage:', {
+          opportunityId,
+          newStage,
+          error: error?.response?.data || error?.message || error,
+          status: error?.response?.status,
+          requestData: { id: opportunityId, stage: newStage },
+        })
       }
-      opportunities.forEach((opp) => {
-        revertedGrouped[opp.pipelineStage].push(opp)
-      })
-      setGroupedOpportunities(revertedGrouped)
-      console.error('Failed to update opportunity stage:', error)
+    } else {
+      // Static/test data - skip API call, optimistic update is already done
+      console.log(`Skipping API call for static opportunity: ${opportunityId}`)
     }
   }
 

@@ -38,7 +38,7 @@ export function PasswordStrength({ password }: PasswordStrengthProps) {
 
       {/* Strength Label */}
       <div className="flex items-center justify-between text-xs">
-        <span className="text-neutral-600 dark:text-text-muted-dark">Password strength:</span>
+        <span className="text-neutral-600 dark:text-slate-400">Password strength:</span>
         <span
           className={`font-semibold ${
             strength === 'weak'
@@ -56,7 +56,7 @@ export function PasswordStrength({ password }: PasswordStrengthProps) {
 
       {/* Feedback */}
       {feedback.length > 0 && (
-        <div className="text-xs text-neutral-500 dark:text-text-muted-dark space-y-1">
+        <div className="text-xs text-neutral-500 dark:text-slate-400 space-y-1">
           <p className="font-medium">Requirements:</p>
           <ul className="list-disc list-inside space-y-0.5 ml-2">
             {feedback.map((item, index) => (
