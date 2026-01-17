@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useState, useEffect, Suspense } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -19,12 +19,14 @@ import { loginSchema, type LoginFormData } from "@/lib/validations";
 import { useAuth } from "@/contexts/AuthContext";
 import { useLogin, useConfirmEmail } from "@/provider/auth";
 import Image from "next/image";
+import { AuthVisualSection } from "@/components/common/AuthVisualSection";
 
-export default function LoginPage() {
+function LoginForm() {
   const router = useRouter();
   const { login: authLogin } = useAuth();
   const loginMutation = useLogin();
   const confirmEmailMutation = useConfirmEmail();
+  const searchParams = useSearchParams();
 
   const form = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
@@ -44,6 +46,21 @@ export default function LoginPage() {
     null
   );
   const [isVerified, setIsVerified] = useState(false);
+  const [showVerifiedSuccess, setShowVerifiedSuccess] = useState(false);
+
+  // Check if user just verified their email
+  useEffect(() => {
+    const verified = searchParams.get('verified');
+    if (verified === 'true') {
+      setShowVerifiedSuccess(true);
+      // Clear the query parameter
+      router.replace('/login');
+      // Hide message after 10 seconds
+      setTimeout(() => {
+        setShowVerifiedSuccess(false);
+      }, 10000);
+    }
+  }, [searchParams, router]);
 
   // Detect theme changes
   useEffect(() => {
@@ -140,6 +157,25 @@ export default function LoginPage() {
               {/* Card Container */}
               <div className="bg-white dark:bg-surface-dark rounded-xl shadow-lg border border-neutral-200 dark:border-slate-700 p-8">
                 <div className="flex flex-col gap-6">
+
+                  {/* Email Verified Success Message */}
+                  {showVerifiedSuccess && (
+                    <div className="px-4 py-4 rounded-md bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800">
+                      <div className="flex items-start gap-3">
+                        <span className="material-symbols-outlined text-green-600 dark:text-green-400 text-[24px]">
+                          check_circle
+                        </span>
+                        <div className="flex-1">
+                          <p className="text-sm font-medium text-green-800 dark:text-green-200">
+                            Email verified successfully!
+                          </p>
+                          <p className="text-sm text-green-700 dark:text-green-300 mt-1">
+                            You can now log in to your account. Your account is pending admin approval.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  )}
 
                   {/* Email Not Verified Message */}
                   {emailNotVerified && !isVerified && (
@@ -395,65 +431,19 @@ export default function LoginPage() {
       </div>
 
       {/* Right Side: Visual Section */}
-      <div className="relative hidden w-0 lg:block lg:w-[50%]">
-        {/* Background Image */}
-        <div
-          className="absolute inset-0 h-full w-full bg-cover bg-center bg-no-repeat"
-          style={{
-            backgroundImage:
-              'url("https://img.freepik.com/free-vector/background-realistic-abstract-technology-particle_23-2148431735.jpg?semt=ais_hybrid&w=740&q=80")',
-          }}
-        >
-          {/* Gradient Overlay for text readability */}
-          <div className="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/40 to-transparent mix-blend-multiply"></div>
-          <div className="absolute inset-0 bg-gradient-to-br from-[#0f172a]/50 to-transparent"></div>
-        </div>
-
-        {/* Floating Content on Right Side */}
-        <div className="absolute inset-0 flex flex-col justify-end p-16 xl:p-24">
-          <div className="max-w-2xl text-white">
-            <div className="mb-6 inline-flex rounded-full border border-white/20 bg-white/10 px-4 py-1.5 backdrop-blur-md">
-              <span className="flex items-center gap-2 text-sm font-medium tracking-wide">
-                <span className="material-symbols-outlined text-base">
-                  auto_awesome
-                </span>
-                <span>New v2.0 Released</span>
-              </span>
-            </div>
-            <h2 className="mb-6 text-5xl font-black leading-tight tracking-tight lg:text-6xl drop-shadow-sm">
-              Unlock your <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-purple-200">
-                sales potential.
-              </span>
-            </h2>
-            <p className="mb-8 text-xl font-light text-purple-50 max-w-lg leading-relaxed opacity-90">
-              Join the next generation of Lead & Opportunity Management.
-              Transform how you connect with customers today.
-            </p>
-            {/* Feature Pills */}
-            <div className="flex flex-wrap gap-3">
-              <div className="flex items-center gap-2 rounded-xl bg-black/20 px-4 py-2 text-sm font-medium text-white backdrop-blur-sm border border-white/10">
-                <span className="material-symbols-outlined text-[18px]">
-                  analytics
-                </span>
-                Smart Analytics
-              </div>
-              <div className="flex items-center gap-2 rounded-xl bg-black/20 px-4 py-2 text-sm font-medium text-white backdrop-blur-sm border border-white/10">
-                <span className="material-symbols-outlined text-[18px]">
-                  bolt
-                </span>
-                Real-time Sync
-              </div>
-              <div className="flex items-center gap-2 rounded-xl bg-black/20 px-4 py-2 text-sm font-medium text-white backdrop-blur-sm border border-white/10">
-                <span className="material-symbols-outlined text-[18px]">
-                  security
-                </span>
-                Enterprise Security
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <AuthVisualSection />
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={
+      <div className="flex min-h-screen items-center justify-center">
+        <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+      </div>
+    }>
+      <LoginForm />
+    </Suspense>
   );
 }

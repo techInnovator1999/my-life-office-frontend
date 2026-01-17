@@ -592,7 +592,12 @@ export default function ProfilePage() {
     setFormData((prev) => ({ ...prev, [name]: value }))
   }
 
-  const handleNext = () => {
+  const handleNext = (e?: React.MouseEvent<HTMLButtonElement>) => {
+    // Prevent form submission
+    if (e) {
+      e.preventDefault()
+    }
+    
     if (currentStep < STEPS.length) {
       setCurrentStep(currentStep + 1)
     }
