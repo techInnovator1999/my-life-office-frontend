@@ -46,7 +46,7 @@ function VerifyEmailForm() {
   }
 
   return (
-    <div className="flex h-screen w-full flex-row overflow-hidden font-display text-gray-900 dark:text-white antialiased" style={{ backgroundColor: '#eaeef7' }}>
+    <div className="flex h-screen w-full flex-row overflow-hidden font-display text-gray-900 dark:text-white antialiased bg-gray-50 dark:bg-slate-900">
       {/* Left Side: Content Section */}
       <div className="relative flex w-full flex-col justify-center lg:w-[50%] z-10">
         <div className="flex h-full w-full flex-col overflow-y-auto no-scrollbar">
@@ -64,7 +64,7 @@ function VerifyEmailForm() {
               </div>
 
               {/* Card Container */}
-              <div className="bg-white dark:bg-surface-dark rounded-xl shadow-lg border border-neutral-200 dark:border-slate-700 p-8">
+              <div className="bg-white dark:bg-slate-800 rounded-xl shadow-lg border border-neutral-200 dark:border-slate-700 p-8">
                 <div className="flex flex-col gap-6">
                   {/* Success Icon */}
                   <div className="mx-auto w-16 h-16 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center">

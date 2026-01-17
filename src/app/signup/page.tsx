@@ -107,7 +107,7 @@ export default function SignupPage() {
 
 
   return (
-    <div className="flex h-screen w-full flex-row overflow-hidden font-display text-gray-900 dark:text-white antialiased" style={{ backgroundColor: '#eaeef7' }}>
+    <div className="flex h-screen w-full flex-row overflow-hidden font-display text-gray-900 dark:text-white antialiased bg-gray-50 dark:bg-slate-900">
       {/* Left Side: Form Section */}
       <div className="relative flex w-full flex-col justify-center lg:w-[50%] z-10">
         <div className="flex h-full w-full flex-col overflow-y-auto no-scrollbar">
@@ -127,7 +127,7 @@ export default function SignupPage() {
                 </h1>
               </div>
               {/* Card Container */}
-              <div className="bg-white dark:bg-surface-dark rounded-xl shadow-lg border border-neutral-200 dark:border-slate-700 p-8">
+              <div className="bg-white dark:bg-slate-800 rounded-xl shadow-lg border border-neutral-200 dark:border-slate-700 p-8">
                 <div className="flex flex-col gap-6">
               <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-5 mt-2" autoComplete="off">
@@ -220,7 +220,6 @@ export default function SignupPage() {
                             </div>
                           </FormControl>
                           <FormMessage />
-                          {field.value && <PasswordStrength password={field.value} />}
                         </FormItem>
                       )}
                     />
@@ -260,6 +259,13 @@ export default function SignupPage() {
                       )}
                     />
                   </div>
+
+                  {/* Password Strength - Full Width */}
+                  {form.watch('password') && (
+                    <div className="w-full">
+                      <PasswordStrength password={form.watch('password')} />
+                    </div>
+                  )}
 
                   {/* Terms Checkbox */}
                   <div className="flex items-start gap-3">
@@ -372,7 +378,7 @@ export default function SignupPage() {
 
           {/* Modal */}
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-            <div className="bg-white dark:bg-surface-dark rounded-lg shadow-xl border border-neutral-200 dark:border-slate-700 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+            <div className="bg-white dark:bg-slate-800 rounded-lg shadow-xl border border-neutral-200 dark:border-slate-700 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
               <div className="p-6">
                 {/* Modal Header */}
                 <div className="flex items-center gap-3 mb-4">

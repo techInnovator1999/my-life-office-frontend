@@ -133,8 +133,7 @@ function LoginForm() {
 
   return (
     <div
-      className="flex h-screen w-full flex-row overflow-hidden font-display text-gray-900 dark:text-white antialiased"
-      style={{ backgroundColor: "#eaeef7" }}
+      className="flex h-screen w-full flex-row overflow-hidden font-display text-gray-900 dark:text-white antialiased bg-gray-50 dark:bg-slate-900"
     >
       {/* Left Side: Form Section */}
       <div className="relative flex w-full flex-col justify-center lg:w-[50%] z-10">
@@ -155,7 +154,7 @@ function LoginForm() {
                 </h1>
               </div>
               {/* Card Container */}
-              <div className="bg-white dark:bg-surface-dark rounded-xl shadow-lg border border-neutral-200 dark:border-slate-700 p-8">
+              <div className="bg-white dark:bg-slate-800 rounded-xl shadow-lg border border-neutral-200 dark:border-slate-700 p-8">
                 <div className="flex flex-col gap-6">
 
                   {/* Email Verified Success Message */}

@@ -56,7 +56,7 @@ export function PasswordStrength({ password }: PasswordStrengthProps) {
 
       {/* Feedback */}
       {feedback.length > 0 && (
-        <div className="text-xs text-neutral-500 dark:text-slate-400 space-y-1">
+        <div className="w-full text-xs text-neutral-500 dark:text-slate-400 space-y-1 bg-primary/5 dark:bg-primary/10 border border-primary/20 dark:border-primary/30 rounded-lg p-2">
           <p className="font-medium">Requirements:</p>
           <ul className="list-disc list-inside space-y-0.5 ml-2">
             {feedback.map((item, index) => (
