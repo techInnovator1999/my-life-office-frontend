@@ -13,6 +13,7 @@ import { signupSchema, type SignupFormData } from '@/lib/validations'
 import { useLicenseTypes } from '@/provider/lookup'
 import { useRegister } from '@/provider/auth'
 import Image from 'next/image'
+import { AuthVisualSection } from '@/components/common/AuthVisualSection'
 
 export default function SignupPage() {
   const router = useRouter()
@@ -356,55 +357,8 @@ export default function SignupPage() {
         </div>
       </div>
 
-      {/* Right Side: Visual Section - Image Only (No Text) */}
-      <div className="relative hidden w-0 lg:block lg:w-[50%]">
-        <div
-          className="absolute inset-0 h-full w-full bg-cover bg-center bg-no-repeat"
-          style={{
-            backgroundImage:
-              'url("https://img.freepik.com/free-vector/background-realistic-abstract-technology-particle_23-2148431735.jpg?semt=ais_hybrid&w=740&q=80")',
-          }}
-        >
-          <div className="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/40 to-transparent mix-blend-multiply"></div>
-          <div className="absolute inset-0 bg-gradient-to-br from-[#0f172a]/50 to-transparent"></div>
-        </div>
-        {/* Floating Content on Right Side */}
-        <div className="absolute inset-0 flex flex-col justify-end p-16 xl:p-24">
-          <div className="max-w-2xl text-white">
-            <div className="mb-6 inline-flex rounded-full border border-white/20 bg-white/10 px-4 py-1.5 backdrop-blur-md">
-              <span className="flex items-center gap-2 text-sm font-medium tracking-wide">
-                <span className="material-symbols-outlined text-base">auto_awesome</span>
-                <span>New v2.0 Released</span>
-              </span>
-            </div>
-            <h2 className="mb-6 text-5xl font-black leading-tight tracking-tight lg:text-6xl drop-shadow-sm">
-              Unlock your <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-purple-200">
-                sales potential.
-              </span>
-            </h2>
-            <p className="mb-8 text-xl font-light text-purple-50 max-w-lg leading-relaxed opacity-90">
-              Join the next generation of Lead & Opportunity Management. Transform how you connect with customers
-              today.
-            </p>
-            {/* Feature Pills */}
-            <div className="flex flex-wrap gap-3">
-              <div className="flex items-center gap-2 rounded-xl bg-black/20 px-4 py-2 text-sm font-medium text-white backdrop-blur-sm border border-white/10">
-                <span className="material-symbols-outlined text-[18px]">analytics</span>
-                Smart Analytics
-              </div>
-              <div className="flex items-center gap-2 rounded-xl bg-black/20 px-4 py-2 text-sm font-medium text-white backdrop-blur-sm border border-white/10">
-                <span className="material-symbols-outlined text-[18px]">bolt</span>
-                Real-time Sync
-              </div>
-              <div className="flex items-center gap-2 rounded-xl bg-black/20 px-4 py-2 text-sm font-medium text-white backdrop-blur-sm border border-white/10">
-                <span className="material-symbols-outlined text-[18px]">security</span>
-                Enterprise Security
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      {/* Right Side: Visual Section */}
+      <AuthVisualSection />
 
       {/* License Type Selection Modal */}
       {showLicenseModal && (
