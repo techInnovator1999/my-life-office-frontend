@@ -171,8 +171,9 @@ function ResetPasswordForm() {
                                   placeholder="••••••••"
                                   autoComplete="new-password"
                                   {...field}
-                                  value={field.value || ''}
+                                  {...resetForm.register('password')}
                                 />
+
                               </FormControl>
                               <PasswordStrength password={field.value} />
                               <FormMessage />
@@ -190,9 +191,9 @@ function ResetPasswordForm() {
                                 <Input
                                   type="password"
                                   placeholder="••••••••"
-                                  autoComplete="new-password"
                                   {...field}
                                   value={field.value || ''}
+                                  {...resetForm.register('confirmPassword')}
                                 />
                               </FormControl>
                               <FormMessage />
