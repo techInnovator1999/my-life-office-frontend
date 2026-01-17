@@ -15,9 +15,9 @@ const buttonVariants = cva(
     variants: {
       variant: {
         primary: 'bg-primary text-white shadow-sm hover:bg-primary-hover hover:shadow-md active:bg-primary-800 active:scale-[0.98] focus:ring-2 focus:ring-primary/20',
-        secondary: 'bg-white dark:bg-surface-dark text-primary border border-neutral-200 dark:border-slate-700 hover:bg-neutral-50 dark:hover:bg-slate-700 hover:shadow-sm active:scale-[0.98] focus:ring-2 focus:ring-primary/20',
+        secondary: 'bg-white dark:bg-slate-800 text-primary border border-neutral-200 dark:border-slate-700 hover:bg-neutral-50 dark:hover:bg-slate-700 hover:shadow-sm active:scale-[0.98] focus:ring-2 focus:ring-primary/20',
         outline: 'bg-transparent text-primary border border-primary hover:bg-primary/10 dark:hover:bg-primary/20 focus:ring-2 focus:ring-primary/20',
-        ghost: 'bg-transparent text-neutral-700 dark:text-text-muted-dark hover:bg-neutral-100 dark:hover:bg-slate-700 focus:ring-2 focus:ring-neutral-500',
+        ghost: 'bg-transparent text-neutral-700 dark:text-slate-400 hover:bg-neutral-100 dark:hover:bg-slate-700 focus:ring-2 focus:ring-neutral-500',
       },
       size: {
         sm: 'px-3 py-1.5 text-sm',

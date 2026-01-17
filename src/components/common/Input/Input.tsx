@@ -2,13 +2,9 @@
 
 import * as React from 'react'
 import { cn } from '@/lib/utils'
+import type { InputProps } from '@/types/ui'
 
-export type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
-  label?: string
-  icon?: string
-  error?: string
-  required?: boolean
-}
+export type { InputProps }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ label, icon, error, required, className = '', type, ...props }, ref) => {
@@ -17,12 +13,12 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     
     const inputClasses = cn(
       'w-full rounded-md border border-neutral-200 dark:border-slate-700',
-      'bg-white dark:bg-surface-dark',
+      'bg-white dark:bg-slate-800',
       isNumberInput ? 'pr-4' : icon ? 'pr-10' : 'px-4',
       icon ? 'pl-10' : 'px-4',
       'py-2.5 text-base font-normal',
       'text-neutral-900 dark:text-white',
-      'placeholder:text-neutral-400 dark:placeholder:text-text-muted-dark',
+      'placeholder:text-neutral-400 dark:placeholder:text-slate-400',
       'focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/10',
       'transition-colors duration-200',
       // Hide browser spinner for number inputs
@@ -39,7 +35,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
 
     const iconClasses = cn(
       'absolute left-3 top-1/2 -translate-y-1/2',
-      'text-neutral-400 group-focus-within:text-primary',
+      'text-gray-600 dark:text-gray-400 group-focus-within:text-primary',
       'transition-colors pointer-events-none'
     )
 

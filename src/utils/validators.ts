@@ -2,10 +2,9 @@
  * Validation utilities for form fields
  */
 
-export type ValidationResult = {
-  isValid: boolean
-  error?: string
-}
+import type { ValidationResult, PasswordStrength } from '@/types/common'
+
+export type { ValidationResult, PasswordStrength }
 
 export const validators = {
   required: (value: string): ValidationResult => {
@@ -50,7 +49,7 @@ export const validators = {
   },
 }
 
-export type PasswordStrength = 'weak' | 'fair' | 'good' | 'strong'
+// PasswordStrength exported from types/common.ts
 
 export const calculatePasswordStrength = (password: string): {
   strength: PasswordStrength

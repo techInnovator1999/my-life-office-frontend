@@ -7,6 +7,7 @@ import type {
   LoginResponse,
   UpdateProfileDto,
 } from './types'
+import type { RegisterCredentials } from '@/services/authService'
 import { authKeys } from './index'
 
 /**
@@ -114,6 +115,15 @@ export const useResetPassword = () => {
   return useMutation({
     mutationFn: ({ email, password, code }: { email: string; password: string; code: string }) =>
       authService.resetPassword(email, password, code),
+  })
+}
+
+/**
+ * Register new CRM agent mutation
+ */
+export const useRegister = () => {
+  return useMutation({
+    mutationFn: (credentials: RegisterCredentials) => authService.register(credentials),
   })
 }
 

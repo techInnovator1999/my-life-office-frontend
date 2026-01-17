@@ -136,7 +136,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
         className={`
           fixed lg:static inset-y-0 left-0 z-20
           w-20 lg:w-64 flex-shrink-0 flex flex-col justify-between
-          bg-white dark:bg-surface-darker border-r border-neutral-200 dark:border-slate-700 
+          bg-white dark:bg-slate-900 border-r border-neutral-200 dark:border-slate-700 
           transition-transform duration-300
           ${isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
         `}
@@ -174,12 +174,12 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
                     disabled={isDisabled}
                     className={`w-full flex items-center justify-between gap-2 px-2 py-1.5 rounded-md transition-colors ${
                       isDisabled
-                        ? 'opacity-50 cursor-not-allowed text-text-muted dark:text-text-muted-dark'
+                        ? 'opacity-50 cursor-not-allowed text-gray-600 dark:text-slate-400'
                         : isExpanded && isAgentsSection
                           ? 'bg-primary text-white shadow-sm'
                           : isExpanded
                             ? 'bg-primary text-white shadow-sm'
-                            : 'hover:bg-neutral-100 dark:hover:bg-slate-700 text-text-muted dark:text-text-muted-dark hover:text-text-main dark:hover:text-white'
+                            : 'hover:bg-neutral-100 dark:hover:bg-slate-700 text-gray-600 dark:text-slate-400 hover:text-gray-900 dark:hover:text-white'
                     }`}
                   >
                     <div className="flex items-center gap-2">
@@ -192,13 +192,13 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
                       </span>
                     )}
                     {isDisabled && (
-                      <span className="material-symbols-outlined text-[16px] hidden lg:block text-text-muted dark:text-text-muted-dark">
+                      <span className="material-symbols-outlined text-[16px] hidden lg:block text-gray-600 dark:text-slate-400">
                         lock
                       </span>
                     )}
                   </button>
                   {isExpanded && !isDisabled && (
-                    <div className="mt-1 ml-4 pl-2 pr-2 py-1 bg-neutral-50/50 dark:bg-slate-800/30 rounded-md space-y-0.5">
+                    <div className="mt-1 ml-4 pl-2 pr-2 py-1 bg-neutral-50/50 dark:bg-slate-800/50 rounded-md space-y-0.5">
                       {item.children?.map((child) => {
                         const childIsActive = isActive(child.path)
                         return (
@@ -213,7 +213,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
                             className={`flex items-center justify-between gap-2 px-2 py-1.5 rounded-md transition-colors ${
                               childIsActive
                                 ? 'bg-primary/20 text-primary border-l-2 border-primary'
-                                : 'hover:bg-neutral-100 dark:hover:bg-slate-700 text-text-muted dark:text-text-muted-dark hover:text-text-main dark:hover:text-white'
+                                : 'hover:bg-neutral-100 dark:hover:bg-slate-700 text-gray-600 dark:text-slate-400 hover:text-gray-900 dark:hover:text-white'
                             }`}
                           >
                             <div className="flex items-center gap-2">
@@ -248,15 +248,15 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
                     ? 'opacity-50 cursor-not-allowed pointer-events-none'
                     : itemIsActive
                       ? 'bg-primary text-white shadow-sm'
-                      : 'hover:bg-neutral-100 dark:hover:bg-slate-700 text-text-muted dark:text-text-muted-dark hover:text-text-main dark:hover:text-white'
+                      : 'hover:bg-neutral-100 dark:hover:bg-slate-700 text-gray-600 dark:text-slate-400 hover:text-gray-900 dark:hover:text-white'
                 }`}
               >
                 <span className="material-symbols-outlined text-[18px]">{item.icon}</span>
                 <span className="hidden lg:block font-medium text-sm">{item.label}</span>
                 {isDisabled && (
-                  <span className="material-symbols-outlined text-[14px] ml-auto hidden lg:block text-text-muted dark:text-text-muted-dark">
-                    lock
-                  </span>
+                      <span className="material-symbols-outlined text-[14px] ml-auto hidden lg:block text-gray-600 dark:text-slate-400">
+                        lock
+                      </span>
                 )}
               </Link>
             )
@@ -274,10 +274,10 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
             </div>
             {/* User Info - Hidden on mobile */}
             <div className="hidden lg:block flex-1 min-w-0">
-              <p className="text-xs font-medium text-text-main dark:text-white truncate">
+              <p className="text-xs font-medium text-gray-900 dark:text-white truncate">
                 {formatFullName(user?.firstName, user?.lastName)}
               </p>
-              <p className="text-xs text-text-muted dark:text-text-muted-dark truncate">{user?.email}</p>
+              <p className="text-xs text-gray-600 dark:text-slate-400 truncate">{user?.email}</p>
               <span className="inline-block mt-0.5 px-1.5 py-0.5 text-xs font-medium rounded-full bg-primary/20 text-primary border border-primary/20">
                 {user?.role?.name?.toUpperCase() || 'AGENT'}
               </span>

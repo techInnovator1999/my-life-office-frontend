@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import type { LoginFormData, SignupFormData, ForgotPasswordFormData, ResetPasswordFormData, VerifyResetCodeFormData, ProfileUpdateFormData } from '@/types/form'
 
 /**
  * Login form validation schema
@@ -14,7 +15,8 @@ export const loginSchema = z.object({
     .min(6, 'Must be at least 6 characters'),
 })
 
-export type LoginFormData = z.infer<typeof loginSchema>
+// Re-export types for backward compatibility
+export type { LoginFormData, SignupFormData, ForgotPasswordFormData, ResetPasswordFormData, VerifyResetCodeFormData, ProfileUpdateFormData }
 
 /**
  * Signup form validation schema
@@ -29,18 +31,15 @@ export const signupSchema = z.object({
   password: z
     .string()
     .min(1, 'This field is required')
-    .min(6, 'Must be at least 6 characters'),
+    .min(8, 'Must be at least 8 characters'),
   confirmPassword: z.string().min(1, 'This field is required'),
-  mobile: z.string().optional(),
-  registrationType: z.enum(['INDIVIDUAL', 'BUSINESS', 'EMPLOYEE', 'NOT_LICENSED']).optional(),
-  primaryLicenseType: z.string().optional(),
-  residentState: z.string().optional(),
+  primaryLicenseType: z.string().min(1, 'This field is required'),
 }).refine((data) => data.password === data.confirmPassword, {
   message: 'Passwords do not match',
   path: ['confirmPassword'],
 })
 
-export type SignupFormData = z.infer<typeof signupSchema>
+// SignupFormData exported from types/form.ts
 
 /**
  * Forgot password form validation schema
@@ -52,7 +51,7 @@ export const forgotPasswordSchema = z.object({
     .email('Please enter a valid email address'),
 })
 
-export type ForgotPasswordFormData = z.infer<typeof forgotPasswordSchema>
+// ForgotPasswordFormData exported from types/form.ts
 
 /**
  * Reset password form validation schema
@@ -68,7 +67,7 @@ export const resetPasswordSchema = z.object({
   path: ['confirmPassword'],
 })
 
-export type ResetPasswordFormData = z.infer<typeof resetPasswordSchema>
+// ResetPasswordFormData exported from types/form.ts
 
 /**
  * Verify reset code form validation schema
@@ -85,7 +84,7 @@ export const verifyResetCodeSchema = z.object({
     .regex(/^\d+$/, 'Verification code must contain only numbers'),
 })
 
-export type VerifyResetCodeFormData = z.infer<typeof verifyResetCodeSchema>
+// VerifyResetCodeFormData exported from types/form.ts
 
 /**
  * Profile update form validation schema
@@ -102,5 +101,5 @@ export const profileUpdateSchema = z.object({
   currentCompany: z.string().optional().nullable(),
 })
 
-export type ProfileUpdateFormData = z.infer<typeof profileUpdateSchema>
+// ProfileUpdateFormData exported from types/form.ts
 

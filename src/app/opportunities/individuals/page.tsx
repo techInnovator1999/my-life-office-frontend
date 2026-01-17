@@ -17,7 +17,7 @@ export default function IndividualsPage() {
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-semibold text-text-main dark:text-white">Individuals</h1>
+            <h1 className="text-2xl font-semibold text-gray-900 dark:text-white">Individuals</h1>
             <p className="text-xs text-gray-700 dark:text-gray-300 mt-0.5">
               Manage individual opportunities
             </p>
@@ -41,7 +41,7 @@ export default function IndividualsPage() {
             </p>
           </div>
         ) : (
-          <div className="bg-white dark:bg-surface-dark rounded-lg shadow-sm border border-neutral-200 dark:border-slate-700 p-6">
+          <div className="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-neutral-200 dark:border-slate-700 p-6">
             <p className="text-gray-700 dark:text-gray-300">
               {individualOpportunities.length} individual opportunities found
             </p>

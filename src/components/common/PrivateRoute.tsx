@@ -36,7 +36,7 @@ export function PrivateRoute({ children }: PrivateRouteProps) {
   // During SSR or initial load, show loading state to match server render
   if (!mounted || isLoading) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-background-light dark:bg-background-dark" suppressHydrationWarning>
+      <div className="flex items-center justify-center min-h-screen bg-gray-50 dark:bg-slate-900" suppressHydrationWarning>
         <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
       </div>
     )
@@ -50,7 +50,7 @@ export function PrivateRoute({ children }: PrivateRouteProps) {
   // If user is not approved and not on profile page, show loading (redirect in progress)
   if (user && !user.isApproved && pathname !== '/profile') {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-background-light dark:bg-background-dark">
+      <div className="flex items-center justify-center min-h-screen bg-gray-50 dark:bg-slate-900">
         <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
       </div>
     )

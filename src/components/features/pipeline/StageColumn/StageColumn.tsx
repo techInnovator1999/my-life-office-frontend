@@ -37,10 +37,10 @@ export function StageColumn({
     : 'border-neutral-200 dark:border-slate-700'
   const containerBgClass = categoryColors
     ? `${categoryColors.containerBg} dark:bg-transparent`
-    : 'bg-white dark:bg-surface-dark'
+    : 'bg-white dark:bg-slate-800'
   const headerTextColor = categoryColors
     ? categoryColors.labelColor
-    : 'text-text-main dark:text-white'
+    : 'text-gray-900 dark:text-white'
   const columnBorderClass = categoryColors
     ? `${categoryColors.borderColor} ${categoryColors.borderColorDark}`
     : 'border-neutral-200 dark:border-slate-700'

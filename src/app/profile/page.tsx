@@ -184,16 +184,16 @@ function ProfileView() {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold text-text-main dark:text-white font-display">
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white font-display">
           My Profile
         </h1>
-        <p className="text-text-muted dark:text-text-muted-dark mt-1">
+        <p className="text-gray-600 dark:text-slate-400 mt-1">
           View and manage your profile information
         </p>
       </div>
 
       {/* Profile Summary Card */}
-      <div className="bg-white dark:bg-surface-dark rounded-xl shadow-sm border border-neutral-200 dark:border-slate-700 p-4">
+      <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-neutral-200 dark:border-slate-700 p-4">
         <div className="flex items-center gap-4">
           {/* Avatar */}
           <div className="size-16 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0">
@@ -207,17 +207,17 @@ function ProfileView() {
           {/* User Info */}
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 mb-1">
-              <h2 className="text-lg font-semibold text-text-main dark:text-white truncate">
+              <h2 className="text-lg font-semibold text-gray-900 dark:text-white truncate">
                 {formatFullName(user?.firstName, user?.lastName)}
               </h2>
               <span className="px-2 py-0.5 text-xs font-medium rounded-full bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 flex-shrink-0">
                 {user?.isApproved ? 'Approved' : 'Pending'}
               </span>
             </div>
-            <p className="text-xs text-text-muted dark:text-text-muted-dark mb-1 truncate">
+            <p className="text-xs text-gray-600 dark:text-slate-400 mb-1 truncate">
               {user?.email}
             </p>
-            <p className="text-xs text-text-muted dark:text-text-muted-dark">
+            <p className="text-xs text-gray-600 dark:text-slate-400">
               Member since: {user?.createdAt ? formatMemberSince(user.createdAt) : '-'}
             </p>
           </div>
@@ -225,17 +225,17 @@ function ProfileView() {
           {/* User Details */}
           <div className="flex flex-col gap-2 text-right">
             <div>
-              <p className="text-xs text-text-muted dark:text-text-muted-dark">Status: <span className="text-sm font-semibold text-text-main dark:text-white">{user?.status?.name || '-'}</span></p>
+              <p className="text-xs text-gray-600 dark:text-slate-400">Status: <span className="text-sm font-semibold text-gray-900 dark:text-white">{user?.status?.name || '-'}</span></p>
             </div>
             <div>
-              <p className="text-xs text-text-muted dark:text-text-muted-dark">Role: <span className="text-sm font-semibold text-text-main dark:text-white">{user?.role?.name || '-'}</span></p>
+              <p className="text-xs text-gray-600 dark:text-slate-400">Role: <span className="text-sm font-semibold text-gray-900 dark:text-white">{user?.role?.name || '-'}</span></p>
             </div>
           </div>
         </div>
       </div>
 
       {/* Tabs */}
-      <div className="bg-white dark:bg-surface-dark rounded-xl shadow-sm border border-neutral-200 dark:border-slate-700">
+      <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-neutral-200 dark:border-slate-700">
         {/* Tab Navigation */}
         <div className="border-b border-neutral-200 dark:border-slate-700">
           <nav className="flex -mb-px overflow-x-auto">
@@ -246,7 +246,7 @@ function ProfileView() {
                 className={`px-6 py-3 text-sm font-medium border-b-2 transition-colors whitespace-nowrap ${
                   activeTab === tab.id
                     ? 'border-primary text-primary'
-                    : 'border-transparent text-text-muted dark:text-text-muted-dark hover:text-text-main dark:hover:text-white hover:border-neutral-300 dark:hover:border-slate-600'
+                    : 'border-transparent text-gray-600 dark:text-slate-400 hover:text-gray-900 dark:hover:text-white hover:border-neutral-300 dark:hover:border-slate-600'
                 }`}
               >
                 {tab.label}
@@ -261,7 +261,7 @@ function ProfileView() {
             <div>
               {/* Profile Information Section */}
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-semibold text-text-main dark:text-white">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                   Profile Information
                 </h3>
                 {!isEditing && (
@@ -269,7 +269,7 @@ function ProfileView() {
                     onClick={() => setIsEditing(true)}
                     className="size-8 flex items-center justify-center rounded-md hover:bg-neutral-100 dark:hover:bg-slate-700 transition-colors"
                   >
-                    <span className="material-symbols-outlined text-[18px] text-text-muted dark:text-text-muted-dark">
+                    <span className="material-symbols-outlined text-[18px] text-gray-600 dark:text-slate-400">
                       edit
                     </span>
                   </button>
@@ -366,7 +366,7 @@ function ProfileView() {
                     <label className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1 block">
                       First Name
                     </label>
-                    <p className="text-sm font-semibold text-text-main dark:text-white">
+                    <p className="text-sm font-semibold text-gray-900 dark:text-white">
                       {toTitleCase(formData.firstName) || '-'}
                     </p>
                   </div>
@@ -374,7 +374,7 @@ function ProfileView() {
                     <label className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1 block">
                       Last Name
                     </label>
-                    <p className="text-sm font-semibold text-text-main dark:text-white">
+                    <p className="text-sm font-semibold text-gray-900 dark:text-white">
                       {toTitleCase(formData.lastName) || '-'}
                     </p>
                   </div>
@@ -382,7 +382,7 @@ function ProfileView() {
                     <label className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1 block">
                       Email
                     </label>
-                    <p className="text-sm font-semibold text-text-main dark:text-white">
+                    <p className="text-sm font-semibold text-gray-900 dark:text-white">
                       {user?.email || '-'}
                     </p>
                   </div>
@@ -390,7 +390,7 @@ function ProfileView() {
                     <label className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1 block">
                       Mobile No.
                     </label>
-                    <p className="text-sm font-semibold text-text-main dark:text-white">
+                    <p className="text-sm font-semibold text-gray-900 dark:text-white">
                       {formData.mobile || '-'}
                     </p>
                   </div>
@@ -398,7 +398,7 @@ function ProfileView() {
                     <label className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1 block">
                       Primary License Type
                     </label>
-                    <p className="text-sm font-semibold text-text-main dark:text-white">
+                    <p className="text-sm font-semibold text-gray-900 dark:text-white">
                       {licenseTypeOptions.find((opt) => opt.value === formData.primaryLicenseType)?.label || formData.primaryLicenseType || '-'}
                     </p>
                   </div>
@@ -406,7 +406,7 @@ function ProfileView() {
                     <label className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1 block">
                       Resident State
                     </label>
-                    <p className="text-sm font-semibold text-text-main dark:text-white">
+                    <p className="text-sm font-semibold text-gray-900 dark:text-white">
                       {regionOptions.find((opt) => opt.value === formData.residentState)?.label || formData.residentState || '-'}
                     </p>
                   </div>
@@ -414,7 +414,7 @@ function ProfileView() {
                     <label className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1 block">
                       License Number
                     </label>
-                    <p className="text-sm font-semibold text-text-main dark:text-white">
+                    <p className="text-sm font-semibold text-gray-900 dark:text-white">
                       {formData.licenseNumber || '-'}
                     </p>
                   </div>
@@ -422,7 +422,7 @@ function ProfileView() {
                     <label className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1 block">
                       Years Licensed
                     </label>
-                    <p className="text-sm font-semibold text-text-main dark:text-white">
+                    <p className="text-sm font-semibold text-gray-900 dark:text-white">
                       {termLicenseOptions.find((opt) => opt.value === formData.yearsLicensed)?.label || formData.yearsLicensed || '-'}
                     </p>
                   </div>
@@ -430,7 +430,7 @@ function ProfileView() {
                     <label className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1 block">
                       Prior Products Sold
                     </label>
-                    <p className="text-sm font-semibold text-text-main dark:text-white">
+                    <p className="text-sm font-semibold text-gray-900 dark:text-white">
                       {productSoldOptions.find((opt) => opt.value === formData.priorProductsSold)?.label || formData.priorProductsSold || '-'}
                     </p>
                   </div>
@@ -438,7 +438,7 @@ function ProfileView() {
                     <label className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1 block">
                       Current Company
                     </label>
-                    <p className="text-sm font-semibold text-text-main dark:text-white">
+                    <p className="text-sm font-semibold text-gray-900 dark:text-white">
                       {formData.currentCompany || '-'}
                     </p>
                   </div>
@@ -469,31 +469,31 @@ function ProfileView() {
 
           {activeTab === 'my-codes' && (
             <div className="text-center py-12">
-              <p className="text-text-muted dark:text-text-muted-dark">My Codes content coming soon</p>
+              <p className="text-gray-600 dark:text-slate-400">My Codes content coming soon</p>
             </div>
           )}
 
           {activeTab === 'licensing' && (
             <div className="text-center py-12">
-              <p className="text-text-muted dark:text-text-muted-dark">Licensing content coming soon</p>
+              <p className="text-gray-600 dark:text-slate-400">Licensing content coming soon</p>
             </div>
           )}
 
           {activeTab === 'education' && (
             <div className="text-center py-12">
-              <p className="text-text-muted dark:text-text-muted-dark">Education content coming soon</p>
+              <p className="text-gray-600 dark:text-slate-400">Education content coming soon</p>
             </div>
           )}
 
           {activeTab === 'my-team' && (
             <div className="text-center py-12">
-              <p className="text-text-muted dark:text-text-muted-dark">My Team content coming soon</p>
+              <p className="text-gray-600 dark:text-slate-400">My Team content coming soon</p>
             </div>
           )}
 
           {activeTab === 'banking-info' && (
             <div className="text-center py-12">
-              <p className="text-text-muted dark:text-text-muted-dark">Banking Info content coming soon</p>
+              <p className="text-gray-600 dark:text-slate-400">Banking Info content coming soon</p>
             </div>
           )}
         </div>
@@ -606,6 +606,12 @@ export default function ProfilePage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    
+    // Only allow submission on step 3
+    if (currentStep !== 3) {
+      return
+    }
+    
     setIsSubmitting(true)
     try {
       if (!user?.id) {
@@ -643,16 +649,29 @@ export default function ProfilePage() {
     formData.lastName.trim() !== '' &&
     formData.primaryLicenseType !== ''
 
+  // Prevent Enter key from submitting form on steps 1 and 2
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' && currentStep !== 3) {
+      e.preventDefault()
+      // On Enter, move to next step if valid
+      if (currentStep === 1 && isStep1Valid) {
+        handleNext()
+      } else if (currentStep === 2 && isStep2Valid) {
+        handleNext()
+      }
+    }
+  }
+
   return (
     <PrivateRoute>
       <div className="max-w-6xl mx-auto space-y-6">
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-text-main dark:text-white font-display">
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-white font-display">
               Onboarding
             </h1>
-            <p className="text-sm text-text-muted dark:text-text-muted-dark mt-1">
+            <p className="text-sm text-gray-600 dark:text-slate-400 mt-1">
               Complete your profile information. Your account is pending admin approval.
             </p>
           </div>
@@ -694,7 +713,7 @@ export default function ProfilePage() {
 
               const getTextColor = () => {
                 if (isActive || isCompleted) return 'text-white'
-                return 'text-neutral-600 dark:text-neutral-400'
+                return 'text-neutral-600 dark:text-gray-300'
               }
 
               // Calculate clipPath - Step 1 has straight left edge, Step 3 has straight right edge
@@ -744,15 +763,15 @@ export default function ProfilePage() {
         </div>
 
         {/* Step Content */}
-        <form onSubmit={handleSubmit} className="bg-white dark:bg-surface-dark rounded-xl shadow-lg border border-neutral-200 dark:border-slate-700 p-6 lg:p-8">
+        <form onSubmit={handleSubmit} onKeyDown={handleKeyDown} className="bg-white dark:bg-slate-800 rounded-xl shadow-lg border border-neutral-200 dark:border-slate-700 p-6 lg:p-8">
           {/* Step 1: Registration Type */}
           {currentStep === 1 && (
             <div className="space-y-6">
               <div>
-                <h2 className="text-2xl font-bold text-text-main dark:text-white mb-2">
+                <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
                   Select Your Registration Type
                 </h2>
-                <p className="text-sm text-text-muted dark:text-text-muted-dark">
+                <p className="text-sm text-gray-600 dark:text-slate-400">
                   Please select the type of agent registration that best fits your business model.
                 </p>
               </div>
@@ -764,7 +783,7 @@ export default function ProfilePage() {
                     key={type.value}
                     type="button"
                     onClick={() => handleChange('registrationType', type.value)}
-                    className={`p-4 rounded-lg border bg-white dark:bg-surface-dark transition-colors text-left ${
+                    className={`p-4 rounded-lg border bg-white dark:bg-slate-800 transition-colors text-left ${
                       formData.registrationType === type.value
                         ? 'border-primary bg-primary/5 dark:bg-primary/10 shadow-md'
                         : 'border-neutral-200 dark:border-slate-700 hover:border-primary hover:bg-primary/5 dark:hover:bg-primary/10'
@@ -775,14 +794,14 @@ export default function ProfilePage() {
                         className={`size-16 rounded-full flex items-center justify-center ${
                           formData.registrationType === type.value
                             ? 'bg-primary/20 text-primary'
-                            : 'bg-neutral-100 dark:bg-slate-700 text-neutral-500 dark:text-neutral-400'
+                            : 'bg-neutral-100 dark:bg-slate-700 text-gray-700 dark:text-gray-300'
                         }`}
                       >
                         <span className="material-symbols-outlined text-[32px]">{type.icon}</span>
                       </div>
                       <div>
-                        <h3 className="font-semibold text-text-main dark:text-white">{type.label}</h3>
-                        <p className="text-xs text-text-muted dark:text-text-muted-dark mt-1">
+                        <h3 className="font-semibold text-gray-900 dark:text-white">{type.label}</h3>
+                        <p className="text-xs text-gray-600 dark:text-slate-400 mt-1">
                           {type.description}
                         </p>
                       </div>
@@ -797,17 +816,17 @@ export default function ProfilePage() {
           {currentStep === 2 && (
             <div className="space-y-6">
               <div>
-                <h2 className="text-2xl font-bold text-text-main dark:text-white mb-2">
+                <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
                   Complete Your Profile
                 </h2>
-                <p className="text-sm text-text-muted dark:text-text-muted-dark">
+                <p className="text-sm text-gray-600 dark:text-slate-400">
                   Please fill in all required information to complete your profile.
                 </p>
               </div>
 
               {/* Personal Information */}
               <div className="space-y-4 pt-4">
-                <h3 className="text-lg font-semibold text-text-main dark:text-white">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                   Personal Information
                 </h3>
 
@@ -854,7 +873,7 @@ export default function ProfilePage() {
 
               {/* License Information */}
               <div className="space-y-4 pt-6 border-t border-neutral-200 dark:border-slate-700">
-                <h3 className="text-lg font-semibold text-text-main dark:text-white">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                   License Information
                 </h3>
 
@@ -900,7 +919,7 @@ export default function ProfilePage() {
 
               {/* Professional Information */}
               <div className="space-y-4 pt-6 border-t border-neutral-200 dark:border-slate-700">
-                <h3 className="text-lg font-semibold text-text-main dark:text-white">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                   Professional Information
                 </h3>
 
@@ -931,10 +950,10 @@ export default function ProfilePage() {
           {currentStep === 3 && (
             <div className="space-y-6">
               <div>
-                <h2 className="text-2xl font-bold text-text-main dark:text-white mb-2">
+                <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
                   Review & Submit
                 </h2>
-                <p className="text-sm text-text-muted dark:text-text-muted-dark">
+                <p className="text-sm text-gray-600 dark:text-slate-400">
                   Please review your information before submitting.
                 </p>
               </div>
@@ -942,10 +961,10 @@ export default function ProfilePage() {
               <div className="space-y-6 pt-4">
                 {/* Registration Type */}
                 <div className="p-4 rounded-lg bg-neutral-50 dark:bg-slate-800">
-                  <h3 className="text-sm font-semibold text-text-muted dark:text-text-muted-dark mb-2">
+                  <h3 className="text-sm font-semibold text-gray-600 dark:text-slate-400 mb-2">
                     Registration Type
                   </h3>
-                  <p className="text-base font-medium text-text-main dark:text-white">
+                  <p className="text-base font-medium text-gray-900 dark:text-white">
                     {formData.registrationType === 'NOT_LICENSED'
                       ? 'Not Currently Licensed'
                       : REGISTRATION_TYPES.find((t) => t.value === formData.registrationType)?.label ||
@@ -955,31 +974,31 @@ export default function ProfilePage() {
 
                 {/* Personal Information */}
                 <div className="p-4 rounded-lg bg-neutral-50 dark:bg-slate-800">
-                  <h3 className="text-sm font-semibold text-text-muted dark:text-text-muted-dark mb-3">
+                  <h3 className="text-sm font-semibold text-gray-600 dark:text-slate-400 mb-3">
                     Personal Information
                   </h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div>
-                      <p className="text-xs text-text-muted dark:text-text-muted-dark">First Name</p>
-                      <p className="text-base font-medium text-text-main dark:text-white">
+                      <p className="text-xs text-gray-600 dark:text-slate-400">First Name</p>
+                      <p className="text-base font-medium text-gray-900 dark:text-white">
                         {toTitleCase(formData.firstName) || '—'}
                       </p>
                     </div>
                     <div>
-                      <p className="text-xs text-text-muted dark:text-text-muted-dark">Last Name</p>
-                      <p className="text-base font-medium text-text-main dark:text-white">
+                      <p className="text-xs text-gray-600 dark:text-slate-400">Last Name</p>
+                      <p className="text-base font-medium text-gray-900 dark:text-white">
                         {toTitleCase(formData.lastName) || '—'}
                       </p>
                     </div>
                     <div>
-                      <p className="text-xs text-text-muted dark:text-text-muted-dark">Email</p>
-                      <p className="text-base font-medium text-text-main dark:text-white">
+                      <p className="text-xs text-gray-600 dark:text-slate-400">Email</p>
+                      <p className="text-base font-medium text-gray-900 dark:text-white">
                         {formData.email || '—'}
                       </p>
                     </div>
                     <div>
-                      <p className="text-xs text-text-muted dark:text-text-muted-dark">Mobile</p>
-                      <p className="text-base font-medium text-text-main dark:text-white">
+                      <p className="text-xs text-gray-600 dark:text-slate-400">Mobile</p>
+                      <p className="text-base font-medium text-gray-900 dark:text-white">
                         {formData.mobile || '—'}
                       </p>
                     </div>
@@ -988,33 +1007,33 @@ export default function ProfilePage() {
 
                 {/* License Information */}
                 <div className="p-4 rounded-lg bg-neutral-50 dark:bg-slate-800">
-                  <h3 className="text-sm font-semibold text-text-muted dark:text-text-muted-dark mb-3">
+                  <h3 className="text-sm font-semibold text-gray-600 dark:text-slate-400 mb-3">
                     License Information
                   </h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div>
-                      <p className="text-xs text-text-muted dark:text-text-muted-dark">
+                      <p className="text-xs text-gray-600 dark:text-slate-400">
                         Primary License Type
                       </p>
-                      <p className="text-base font-medium text-text-main dark:text-white">
+                      <p className="text-base font-medium text-gray-900 dark:text-white">
                         {licenseTypeOptions.find((opt) => opt.value === formData.primaryLicenseType)?.label || formData.primaryLicenseType || '—'}
                       </p>
                     </div>
                     <div>
-                      <p className="text-xs text-text-muted dark:text-text-muted-dark">Resident State</p>
-                      <p className="text-base font-medium text-text-main dark:text-white">
+                      <p className="text-xs text-gray-600 dark:text-slate-400">Resident State</p>
+                      <p className="text-base font-medium text-gray-900 dark:text-white">
                         {regionOptions.find((opt) => opt.value === formData.residentState)?.label || formData.residentState || '—'}
                       </p>
                     </div>
                     <div>
-                      <p className="text-xs text-text-muted dark:text-text-muted-dark">License Number</p>
-                      <p className="text-base font-medium text-text-main dark:text-white">
+                      <p className="text-xs text-gray-600 dark:text-slate-400">License Number</p>
+                      <p className="text-base font-medium text-gray-900 dark:text-white">
                         {formData.licenseNumber || '—'}
                       </p>
                     </div>
                     <div>
-                      <p className="text-xs text-text-muted dark:text-text-muted-dark">Years Licensed</p>
-                      <p className="text-base font-medium text-text-main dark:text-white">
+                      <p className="text-xs text-gray-600 dark:text-slate-400">Years Licensed</p>
+                      <p className="text-base font-medium text-gray-900 dark:text-white">
                         {termLicenseOptions.find((opt) => opt.value === formData.yearsLicensed)?.label || formData.yearsLicensed || '—'}
                       </p>
                     </div>
@@ -1024,26 +1043,26 @@ export default function ProfilePage() {
                 {/* Professional Information */}
                 {(formData.priorProductsSold || formData.currentCompany) && (
                   <div className="p-4 rounded-lg bg-neutral-50 dark:bg-slate-800">
-                    <h3 className="text-sm font-semibold text-text-muted dark:text-text-muted-dark mb-3">
+                    <h3 className="text-sm font-semibold text-gray-600 dark:text-slate-400 mb-3">
                       Professional Information
                     </h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                       {formData.priorProductsSold && (
                         <div>
-                          <p className="text-xs text-text-muted dark:text-text-muted-dark">
+                          <p className="text-xs text-gray-600 dark:text-slate-400">
                             Prior Products Sold
                           </p>
-                          <p className="text-base font-medium text-text-main dark:text-white">
+                          <p className="text-base font-medium text-gray-900 dark:text-white">
                             {productSoldOptions.find((opt) => opt.value === formData.priorProductsSold)?.label || formData.priorProductsSold}
                           </p>
                         </div>
                       )}
                       {formData.currentCompany && (
                         <div>
-                          <p className="text-xs text-text-muted dark:text-text-muted-dark">
+                          <p className="text-xs text-gray-600 dark:text-slate-400">
                             Current Company
                           </p>
-                          <p className="text-base font-medium text-text-main dark:text-white">
+                          <p className="text-base font-medium text-gray-900 dark:text-white">
                             {formData.currentCompany}
                           </p>
                         </div>

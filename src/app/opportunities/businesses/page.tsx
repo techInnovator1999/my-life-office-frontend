@@ -17,7 +17,7 @@ export default function BusinessesPage() {
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-semibold text-text-main dark:text-white">Businesses</h1>
+            <h1 className="text-2xl font-semibold text-gray-900 dark:text-white">Businesses</h1>
             <p className="text-xs text-gray-700 dark:text-gray-300 mt-0.5">
               Manage business opportunities
             </p>
@@ -40,8 +40,8 @@ export default function BusinessesPage() {
         )}
 
         {businessOpportunities && (
-          <div className="bg-white dark:bg-surface-dark rounded-lg shadow-sm border border-neutral-200 dark:border-slate-700 p-6">
-            <p className="text-text-muted dark:text-text-muted-dark">
+          <div className="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-neutral-200 dark:border-slate-700 p-6">
+            <p className="text-gray-600 dark:text-slate-400">
               {businessOpportunities.length} business opportunities found
             </p>
             {/* Opportunities list will be implemented here */}

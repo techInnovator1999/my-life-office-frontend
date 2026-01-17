@@ -17,13 +17,13 @@ export default function SettingsPage() {
     <PrivateRoute>
       <div className="space-y-6">
         <div>
-          <h1 className="text-3xl font-bold text-text-main dark:text-white">Settings</h1>
-          <p className="text-text-muted dark:text-text-muted-dark mt-1">
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Settings</h1>
+          <p className="text-gray-600 dark:text-slate-400 mt-1">
             Manage your account settings
           </p>
         </div>
 
-        <div className="bg-white dark:bg-surface-dark rounded-lg shadow-sm border border-neutral-200 dark:border-slate-700 p-6">
+        <div className="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-neutral-200 dark:border-slate-700 p-6">
           <form onSubmit={handleSubmit} className="space-y-6">
             <Input
               label="Email"

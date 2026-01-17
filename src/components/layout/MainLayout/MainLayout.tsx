@@ -15,7 +15,7 @@ export function MainLayout({ children }: MainLayoutProps) {
   const showSidebar = true
 
   return (
-    <div className="flex h-screen w-full overflow-hidden bg-background-light dark:bg-background-dark">
+    <div className="flex h-screen w-full overflow-hidden bg-gray-50 dark:bg-slate-900">
       {/* Sidebar - Show for all authenticated users */}
       {showSidebar && <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />}
 

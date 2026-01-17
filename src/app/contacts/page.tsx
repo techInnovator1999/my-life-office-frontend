@@ -9,10 +9,22 @@ import { formatFullName } from '@/utils/formatters'
 type ContactSource = 'Main Contact' | 'Google Contacts' | 'Lead Buckets' | 'Referral Partners'
 
 export default function ContactsPage() {
-  const { data: contacts = [], isLoading, error } = useContacts()
+  const { data: contactsData, isLoading, error } = useContacts()
   const deleteMutation = useDeleteContact()
   const [selectedContactType, setSelectedContactType] = useState<'Individual' | 'Business'>('Individual')
   const [selectedContactSource, setSelectedContactSource] = useState<ContactSource>('Main Contact')
+  
+  // Ensure contacts is always an array
+  const contacts = (() => {
+    if (Array.isArray(contactsData)) {
+      return contactsData
+    }
+    if (contactsData && typeof contactsData === 'object' && 'data' in contactsData) {
+      const data = (contactsData as { data: unknown }).data
+      return Array.isArray(data) ? data : []
+    }
+    return []
+  })()
 
   const handleDelete = async (id: string) => {
     if (confirm('Are you sure you want to delete this contact?')) {
@@ -29,7 +41,7 @@ export default function ContactsPage() {
       <div className="space-y-6">
         {/* Header */}
         <div className="flex items-center justify-between">
-          <h1 className="text-3xl font-bold text-text-main dark:text-white font-display">Contact</h1>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white font-display">Contact</h1>
           <Button>
             <span className="flex items-center gap-1.5">
               <span className="material-symbols-outlined text-[16px]">add</span>
@@ -48,7 +60,7 @@ export default function ContactsPage() {
               className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 flex items-center gap-2 ${
                 selectedContactType === 'Individual'
                   ? 'bg-primary text-white shadow-sm'
-                  : 'bg-white dark:bg-surface-dark text-gray-700 dark:text-gray-300 border border-neutral-200 dark:border-slate-700 hover:bg-neutral-50 dark:hover:bg-slate-700 hover:text-gray-900 dark:hover:text-white'
+                  : 'bg-white dark:bg-slate-800 text-gray-700 dark:text-gray-300 border border-neutral-200 dark:border-slate-700 hover:bg-neutral-50 dark:hover:bg-slate-700 hover:text-gray-900 dark:hover:text-white'
               }`}
             >
               <span className="material-symbols-outlined text-[18px]">person</span>
@@ -59,7 +71,7 @@ export default function ContactsPage() {
               className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 flex items-center gap-2 ${
                 selectedContactType === 'Business'
                   ? 'bg-primary text-white shadow-sm'
-                  : 'bg-white dark:bg-surface-dark text-gray-700 dark:text-gray-300 border border-neutral-200 dark:border-slate-700 hover:bg-neutral-50 dark:hover:bg-slate-700 hover:text-gray-900 dark:hover:text-white'
+                  : 'bg-white dark:bg-slate-800 text-gray-700 dark:text-gray-300 border border-neutral-200 dark:border-slate-700 hover:bg-neutral-50 dark:hover:bg-slate-700 hover:text-gray-900 dark:hover:text-white'
               }`}
             >
               <span className="material-symbols-outlined text-[18px]">business</span>
@@ -77,7 +89,7 @@ export default function ContactsPage() {
                 className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 flex items-center gap-2 ${
                   selectedContactSource === source
                     ? 'bg-primary text-white shadow-sm'
-                    : 'bg-white dark:bg-surface-dark text-gray-700 dark:text-gray-300 border border-neutral-200 dark:border-slate-700 hover:bg-neutral-50 dark:hover:bg-slate-700 hover:text-gray-900 dark:hover:text-white'
+                    : 'bg-white dark:bg-slate-800 text-gray-700 dark:text-gray-300 border border-neutral-200 dark:border-slate-700 hover:bg-neutral-50 dark:hover:bg-slate-700 hover:text-gray-900 dark:hover:text-white'
                 }`}
               >
                 {source === 'Google Contacts' && <span className="text-[18px] font-bold">G</span>}
@@ -122,10 +134,10 @@ export default function ContactsPage() {
             </p>
           </div>
         ) : (
-          <div className="bg-white dark:bg-surface-dark rounded-xl shadow-sm border border-neutral-200 dark:border-slate-700 overflow-hidden">
+          <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-neutral-200 dark:border-slate-700 overflow-hidden">
             <div className="overflow-x-auto auto-scrollbar">
               <table className="w-full">
-                <thead className="bg-neutral-50 dark:bg-surface-darker border-b border-neutral-200 dark:border-slate-700">
+                <thead className="bg-neutral-50 dark:bg-slate-800er border-b border-neutral-200 dark:border-slate-700">
                   <tr>
                     <th className="px-6 py-4 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider">
                       ID
@@ -150,7 +162,7 @@ export default function ContactsPage() {
                 <tbody className="divide-y divide-neutral-200 dark:divide-slate-700">
                   {contacts.length === 0 ? (
                     <tr>
-                      <td colSpan={6} className="px-6 py-8 text-center text-sm text-text-muted dark:text-text-muted-dark">
+                      <td colSpan={6} className="px-6 py-8 text-center text-sm text-gray-600 dark:text-slate-400">
                         No contacts found
                       </td>
                     </tr>
@@ -160,19 +172,19 @@ export default function ContactsPage() {
                         key={contact.id}
                         className="hover:bg-neutral-50 dark:hover:bg-surface-darker transition-colors duration-150"
                       >
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-text-main dark:text-white">
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
                           {contact.id.slice(0, 8)}
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-text-main dark:text-white">
+                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
                           {formatFullName(contact.firstName, contact.lastName)}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300">
                           {contact.email}
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-text-main dark:text-white">
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
                           {contact.contactType || 'N/A'}
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-text-main dark:text-white">
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
                           {contact.phoneNumber || 'N/A'}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm">

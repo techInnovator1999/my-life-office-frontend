@@ -39,10 +39,10 @@ export function RangeSliderFilter({
     <div className="relative group" ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 px-3 py-2 bg-white dark:bg-surface-dark border border-neutral-200 dark:border-slate-700 rounded-md text-xs font-medium text-text-main dark:text-white hover:bg-neutral-50 dark:hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-primary/20 transition-colors"
+        className="flex items-center gap-2 px-3 py-2 bg-white dark:bg-slate-800 border border-neutral-200 dark:border-slate-700 rounded-md text-xs font-medium text-gray-900 dark:text-white hover:bg-neutral-50 dark:hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-primary/20 transition-colors"
       >
         <span>{displayLabel}</span>
-        <span className="material-symbols-outlined text-[16px] text-text-muted dark:text-text-muted-dark">
+        <span className="material-symbols-outlined text-[16px] text-gray-600 dark:text-slate-400">
           {isOpen ? 'expand_less' : 'expand_more'}
         </span>
       </button>
@@ -56,10 +56,10 @@ export function RangeSliderFilter({
       )}
 
       {isOpen && (
-        <div className="absolute top-full left-0 mt-1 w-72 bg-white dark:bg-surface-dark rounded-lg shadow-xl border border-neutral-200 dark:border-slate-700 z-50 p-4">
+        <div className="absolute top-full left-0 mt-1 w-72 bg-white dark:bg-slate-800 rounded-lg shadow-xl border border-neutral-200 dark:border-slate-700 z-50 p-4">
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <label className="text-sm font-medium text-text-main dark:text-white">{label}</label>
+              <label className="text-sm font-medium text-gray-900 dark:text-white">{label}</label>
               <span className="text-sm font-semibold text-primary">{value}</span>
             </div>
             <input
@@ -71,7 +71,7 @@ export function RangeSliderFilter({
               className="w-full h-2 bg-neutral-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-primary"
             />
             {description && (
-              <p className="text-xs text-text-muted dark:text-text-muted-dark">{description}</p>
+              <p className="text-xs text-gray-600 dark:text-slate-400">{description}</p>
             )}
           </div>
         </div>

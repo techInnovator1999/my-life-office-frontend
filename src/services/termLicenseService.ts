@@ -5,17 +5,9 @@
  */
 
 import api from './api'
+import type { TermLicense } from '@/types/lookup'
 
-export type TermLicense = {
-  id: string
-  label: string
-  value: string
-  order: number
-  isActive: boolean
-  createdAt: string
-  updatedAt: string
-  deletedAt?: string | null
-}
+export type { TermLicense }
 
 /**
  * Get all term licenses

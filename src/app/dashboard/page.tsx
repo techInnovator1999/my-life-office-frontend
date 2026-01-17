@@ -15,12 +15,12 @@ type StatCardProps = {
 
 function StatCard({ title, value, change, changeType, icon }: StatCardProps) {
   return (
-    <div className="bg-white dark:bg-surface-dark rounded-lg shadow-sm border border-neutral-200 dark:border-slate-700 p-6 transition-colors hover:shadow-md">
+    <div className="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-neutral-200 dark:border-slate-700 p-6 transition-colors hover:shadow-md">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-sm font-medium text-text-muted dark:text-text-muted-dark">{title}</h3>
+        <h3 className="text-sm font-medium text-gray-600 dark:text-slate-400">{title}</h3>
         <span className="material-symbols-outlined text-primary text-2xl">{icon}</span>
       </div>
-      <p className="text-3xl font-bold text-text-main dark:text-white mb-1">{value}</p>
+      <p className="text-3xl font-bold text-gray-900 dark:text-white mb-1">{value}</p>
       {change && (
         <p
           className={`text-sm ${
@@ -44,10 +44,10 @@ export default function DashboardPage() {
       <div className="space-y-6">
         {/* Page Header */}
         <div>
-          <h1 className="text-3xl font-bold text-text-main dark:text-white font-display">
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white font-display">
             Dashboard
           </h1>
-          <p className="text-text-muted dark:text-text-muted-dark mt-1">
+          <p className="text-gray-600 dark:text-slate-400 mt-1">
             Welcome back, {toTitleCase(user?.firstName)}! Here's what's happening today.
           </p>
         </div>
@@ -87,9 +87,9 @@ export default function DashboardPage() {
         {/* Recent Activity & Quick Actions */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Recent Activity */}
-          <div className="bg-white dark:bg-surface-dark rounded-xl shadow-sm border border-neutral-200 dark:border-slate-700 p-6">
+          <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-neutral-200 dark:border-slate-700 p-6">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-semibold text-text-main dark:text-white">Recent Activity</h2>
+              <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Recent Activity</h2>
               <button className="text-sm text-primary hover:text-primary-hover font-medium">
                 View all
               </button>
@@ -101,10 +101,10 @@ export default function DashboardPage() {
                   <span className="material-symbols-outlined text-primary text-lg">person_add</span>
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm text-text-main dark:text-white">
+                  <p className="text-sm text-gray-900 dark:text-white">
                     <span className="font-semibold">John Doe</span> added a new contact
                   </p>
-                  <p className="text-xs text-text-muted dark:text-text-muted-dark mt-1">2 hours ago</p>
+                  <p className="text-xs text-gray-600 dark:text-slate-400 mt-1">2 hours ago</p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
@@ -114,10 +114,10 @@ export default function DashboardPage() {
                   </span>
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm text-text-main dark:text-white">
+                  <p className="text-sm text-gray-900 dark:text-white">
                     <span className="font-semibold">Opportunity #1234</span> moved to Closed Won
                   </p>
-                  <p className="text-xs text-text-muted dark:text-text-muted-dark mt-1">5 hours ago</p>
+                  <p className="text-xs text-gray-600 dark:text-slate-400 mt-1">5 hours ago</p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
@@ -127,40 +127,40 @@ export default function DashboardPage() {
                   </span>
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm text-text-main dark:text-white">
+                  <p className="text-sm text-gray-900 dark:text-white">
                     <span className="font-semibold">Jane Smith</span> updated contact information
                   </p>
-                  <p className="text-xs text-text-muted dark:text-text-muted-dark mt-1">1 day ago</p>
+                  <p className="text-xs text-gray-600 dark:text-slate-400 mt-1">1 day ago</p>
                 </div>
               </div>
             </div>
           </div>
 
           {/* Quick Actions */}
-          <div className="bg-white dark:bg-surface-dark rounded-lg shadow-sm border border-neutral-200 dark:border-slate-700 p-6">
-            <h2 className="text-lg font-semibold text-text-main dark:text-white mb-4">Quick Actions</h2>
+          <div className="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-neutral-200 dark:border-slate-700 p-6">
+            <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Quick Actions</h2>
             <div className="grid grid-cols-2 gap-3">
               <Link
                 href="/contacts"
                 className="flex flex-col items-center gap-2 p-4 rounded-lg border border-neutral-200 dark:border-slate-700 hover:border-primary hover:bg-primary/5 dark:hover:bg-primary/10 transition-colors"
               >
                 <span className="material-symbols-outlined text-2xl text-primary">person_add</span>
-                <span className="text-sm font-medium text-text-main dark:text-white">Add Contact</span>
+                <span className="text-sm font-medium text-gray-900 dark:text-white">Add Contact</span>
               </Link>
               <Link
                 href="/pipeline"
                 className="flex flex-col items-center gap-2 p-4 rounded-lg border border-neutral-200 dark:border-slate-700 hover:border-primary hover:bg-primary/5 dark:hover:bg-primary/10 transition-colors"
               >
                 <span className="material-symbols-outlined text-2xl text-primary">add_circle</span>
-                <span className="text-sm font-medium text-text-main dark:text-white">New Opportunity</span>
+                <span className="text-sm font-medium text-gray-900 dark:text-white">New Opportunity</span>
               </Link>
               <button className="flex flex-col items-center gap-2 p-4 rounded-lg border border-neutral-200 dark:border-slate-700 hover:border-primary hover:bg-primary/5 dark:hover:bg-primary/10 transition-colors">
                 <span className="material-symbols-outlined text-2xl text-primary">sync</span>
-                <span className="text-sm font-medium text-text-main dark:text-white">Sync Contacts</span>
+                <span className="text-sm font-medium text-gray-900 dark:text-white">Sync Contacts</span>
               </button>
               <button className="flex flex-col items-center gap-2 p-4 rounded-lg border border-neutral-200 dark:border-slate-700 hover:border-primary hover:bg-primary/5 dark:hover:bg-primary/10 transition-colors">
                 <span className="material-symbols-outlined text-2xl text-primary">analytics</span>
-                <span className="text-sm font-medium text-text-main dark:text-white">View Reports</span>
+                <span className="text-sm font-medium text-gray-900 dark:text-white">View Reports</span>
               </button>
             </div>
           </div>

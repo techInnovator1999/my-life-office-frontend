@@ -312,7 +312,7 @@ export default function PipelinePage() {
         {/* Page Header */}
         <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-3">
           <div className="flex flex-col">
-            <h1 className="text-xl sm:text-2xl lg:text-3xl font-semibold text-text-main dark:text-white">
+            <h1 className="text-xl sm:text-2xl lg:text-3xl font-semibold text-gray-900 dark:text-white">
               Opportunities Pipeline
             </h1>
             <p className="text-xs sm:text-sm text-gray-700 dark:text-gray-300 mt-0.5">
@@ -338,7 +338,7 @@ export default function PipelinePage() {
         </div>
 
         {/* Filter Area */}
-        <div className="bg-white dark:bg-surface-dark rounded-lg shadow-sm border border-neutral-200 dark:border-slate-700 p-3">
+        <div className="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-neutral-200 dark:border-slate-700 p-3">
           <div className="flex items-center gap-3 flex-wrap">
             {/* Filter Icon */}
             <div className="flex items-center justify-center text-gray-600 dark:text-gray-400 pointer-events-none">
@@ -412,11 +412,11 @@ export default function PipelinePage() {
 
         {/* Kanban Board */}
         {isLoading ? (
-          <div className="flex items-center justify-center h-96 bg-white dark:bg-surface-dark rounded-lg shadow-sm border border-neutral-200 dark:border-slate-700">
+          <div className="flex items-center justify-center h-96 bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-neutral-200 dark:border-slate-700">
             <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
           </div>
         ) : (
-          <div className="bg-white dark:bg-surface-dark rounded-lg shadow-sm border border-neutral-200 dark:border-slate-700 p-6">
+          <div className="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-neutral-200 dark:border-slate-700 p-6">
             <KanbanBoard
               opportunities={opportunities}
               onOpportunityClick={handleOpportunityClick}

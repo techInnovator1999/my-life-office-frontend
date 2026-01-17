@@ -1,13 +1,14 @@
 /* Google Fonts - must be first */
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Noto+Sans:wght@400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap');
 
 /* Tailwind CSS imports */
 @import "tailwindcss";
 @import "tw-animate-css";
 
-@custom-variant dark (&:is(.dark *));
+/* Tailwind v4 dark mode - uses .dark class on html element */
+@variant dark (&:is(.dark *));
 
 /**
  * Theme CSS Variables
@@ -31,10 +32,10 @@
   --color-primary-800: #1e40af;
   --color-primary-900: #1e3a8a;
 
-  /* Background colors - Blue-tinted dark theme */
+  /* Background colors - From DESIGN_SYSTEM.md color palette section */
   --bg-light: #f7f6f8;
-  --bg-dark: #0f172a;  /* slate-900 - dark blue-gray background */
-  --surface-dark: #1e293b;  /* slate-800 - blue-gray surface */
+  --bg-dark: #0f172a;  /* slate-900 - dark blue-gray background - from DESIGN_SYSTEM.md */
+  --surface-dark: #1e293b;  /* slate-800 - blue-gray surface - from DESIGN_SYSTEM.md */
   --surface-darker: #0f172a;  /* slate-900 - darker for sidebars */
   --surface-dark-alt: #1e293b;  /* slate-800 - alternate surface */
 
@@ -43,9 +44,9 @@
   --text-muted: #64748b;  /* slate-500 - neutral gray */
   --text-muted-dark: #94a3b8;  /* slate-400 - lighter blue-gray for dark theme */
 
-  /* Border colors */
+  /* Border colors - From DESIGN_SYSTEM.md */
   --border-light: #e5e7eb;
-  --border-dark: #334155;  /* slate-700 - blue-gray border */
+  --border-dark: #334155;  /* slate-700 - blue-gray border - from DESIGN_SYSTEM.md */
 
   /* Light Theme */
   --bg-primary: var(--bg-light);
@@ -266,11 +267,12 @@
 }
 
 /**
- * Auto scrollbar - shows on hover, hides by default
+ * Auto scrollbar - shows when actively scrolling OR when hovering over scrollable area
+ * CRITICAL: Scrollbars appear when user is actively scrolling OR when hovering
  */
 .auto-scrollbar {
   scrollbar-width: thin;
-  scrollbar-color: var(--border-dark) transparent;
+  scrollbar-color: transparent transparent;
 }
 
 .auto-scrollbar::-webkit-scrollbar {
@@ -285,23 +287,199 @@
 .auto-scrollbar::-webkit-scrollbar-thumb {
   background-color: transparent;
   border-radius: 4px;
-  transition: background-color 0.2s;
+  transition: background-color 0.3s ease;
+}
+
+/* Show scrollbar when scrolling */
+.auto-scrollbar.scrolling {
+  scrollbar-color: var(--border-dark) transparent;
+}
+
+.auto-scrollbar.scrolling::-webkit-scrollbar-thumb {
+  background-color: var(--border-dark);
+}
+
+.auto-scrollbar.scrolling::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-primary);
+}
+
+/* Show scrollbar on hover */
+.auto-scrollbar:hover {
+  scrollbar-color: #cbd5e1 transparent;
 }
 
 .auto-scrollbar:hover::-webkit-scrollbar-thumb {
-  background-color: var(--border-dark);
+  background-color: #cbd5e1; /* slate-300 for light theme */
 }
 
 .auto-scrollbar:hover::-webkit-scrollbar-thumb:hover {
   background-color: var(--color-primary);
 }
 
+.dark .auto-scrollbar:hover {
+  scrollbar-color: var(--border-dark) transparent;
+}
+
+.dark .auto-scrollbar:hover::-webkit-scrollbar-thumb {
+  background-color: var(--border-dark); /* slate-700 for dark theme */
+}
+
+.dark .auto-scrollbar:hover::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-primary);
+}
+
+/* Light theme scrollbar colors when scrolling */
+.auto-scrollbar.scrolling::-webkit-scrollbar-thumb {
+  background-color: #cbd5e1; /* slate-300 for light theme */
+}
+
+.dark .auto-scrollbar.scrolling::-webkit-scrollbar-thumb {
+  background-color: var(--border-dark); /* slate-700 for dark theme */
+}
+
+.dark .auto-scrollbar.scrolling::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-primary);
+}
+
+/* Pipeline-specific scrollbars */
+.pipeline-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+}
+
+.pipeline-scrollbar::-webkit-scrollbar {
+  height: 8px;
+}
+
+.pipeline-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.pipeline-scrollbar::-webkit-scrollbar-thumb {
+  background-color: transparent;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+/* Show scrollbar when scrolling */
+.pipeline-scrollbar.scrolling {
+  scrollbar-color: var(--border-dark) transparent;
+}
+
+.pipeline-scrollbar.scrolling::-webkit-scrollbar-thumb {
+  background-color: #cbd5e1;
+}
+
+.dark .pipeline-scrollbar.scrolling::-webkit-scrollbar-thumb {
+  background-color: var(--border-dark);
+}
+
+.pipeline-scrollbar.scrolling::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-primary);
+}
+
+/* Show scrollbar on hover */
+.pipeline-scrollbar:hover {
+  scrollbar-color: #cbd5e1 transparent;
+}
+
+.pipeline-scrollbar:hover::-webkit-scrollbar-thumb {
+  background-color: #cbd5e1; /* slate-300 for light theme */
+}
+
+.pipeline-scrollbar:hover::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-primary);
+}
+
+.dark .pipeline-scrollbar:hover {
+  scrollbar-color: var(--border-dark) transparent;
+}
+
+.dark .pipeline-scrollbar:hover::-webkit-scrollbar-thumb {
+  background-color: var(--border-dark); /* slate-700 for dark theme */
+}
+
+.dark .pipeline-scrollbar:hover::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-primary);
+}
+
+/* Stage column scrollbar */
+.stage-column-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+}
+
+.stage-column-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.stage-column-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.stage-column-scrollbar::-webkit-scrollbar-thumb {
+  background-color: transparent;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+/* Show scrollbar when scrolling */
+.stage-column-scrollbar.scrolling {
+  scrollbar-color: var(--border-dark) transparent;
+}
+
+.stage-column-scrollbar.scrolling::-webkit-scrollbar-thumb {
+  background-color: #cbd5e1;
+}
+
+.dark .stage-column-scrollbar.scrolling::-webkit-scrollbar-thumb {
+  background-color: var(--border-dark);
+}
+
+.stage-column-scrollbar.scrolling::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-primary);
+}
+
+/* Show scrollbar on hover */
+.stage-column-scrollbar:hover {
+  scrollbar-color: #cbd5e1 transparent;
+}
+
+.stage-column-scrollbar:hover::-webkit-scrollbar-thumb {
+  background-color: #cbd5e1; /* slate-300 for light theme */
+}
+
+.stage-column-scrollbar:hover::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-primary);
+}
+
+.dark .stage-column-scrollbar:hover {
+  scrollbar-color: var(--border-dark) transparent;
+}
+
+.dark .stage-column-scrollbar:hover::-webkit-scrollbar-thumb {
+  background-color: var(--border-dark); /* slate-700 for dark theme */
+}
+
+.dark .stage-column-scrollbar:hover::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-primary);
+}
+
 @layer base {
-  * {
-    @apply border-border outline-ring/50;
+  html {
+    font-family: 'Inter', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
+
   body {
     @apply bg-background text-foreground;
+    font-family: 'Inter', system-ui, sans-serif;
+    transition: background-color 200ms ease-in-out, color 200ms ease-in-out;
+  }
+  
+  * {
+    @apply border-border outline-ring/50;
     font-family: 'Inter', system-ui, sans-serif;
   }
   
