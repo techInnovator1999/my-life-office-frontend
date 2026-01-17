@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -26,6 +26,7 @@ export default function LoginPage() {
   const { login: authLogin } = useAuth();
   const loginMutation = useLogin();
   const confirmEmailMutation = useConfirmEmail();
+  const searchParams = useSearchParams();
 
   const form = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
@@ -45,6 +46,21 @@ export default function LoginPage() {
     null
   );
   const [isVerified, setIsVerified] = useState(false);
+  const [showVerifiedSuccess, setShowVerifiedSuccess] = useState(false);
+
+  // Check if user just verified their email
+  useEffect(() => {
+    const verified = searchParams.get('verified');
+    if (verified === 'true') {
+      setShowVerifiedSuccess(true);
+      // Clear the query parameter
+      router.replace('/login');
+      // Hide message after 10 seconds
+      setTimeout(() => {
+        setShowVerifiedSuccess(false);
+      }, 10000);
+    }
+  }, [searchParams, router]);
 
   // Detect theme changes
   useEffect(() => {
@@ -141,6 +157,25 @@ export default function LoginPage() {
               {/* Card Container */}
               <div className="bg-white dark:bg-surface-dark rounded-xl shadow-lg border border-neutral-200 dark:border-slate-700 p-8">
                 <div className="flex flex-col gap-6">
+
+                  {/* Email Verified Success Message */}
+                  {showVerifiedSuccess && (
+                    <div className="px-4 py-4 rounded-md bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800">
+                      <div className="flex items-start gap-3">
+                        <span className="material-symbols-outlined text-green-600 dark:text-green-400 text-[24px]">
+                          check_circle
+                        </span>
+                        <div className="flex-1">
+                          <p className="text-sm font-medium text-green-800 dark:text-green-200">
+                            Email verified successfully!
+                          </p>
+                          <p className="text-sm text-green-700 dark:text-green-300 mt-1">
+                            You can now log in to your account. Your account is pending admin approval.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  )}
 
                   {/* Email Not Verified Message */}
                   {emailNotVerified && !isVerified && (

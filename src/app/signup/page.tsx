@@ -93,7 +93,8 @@ export default function SignupPage() {
     
     try {
       await registerMutation.mutateAsync(data)
-      router.push('/login')
+      // Redirect to email verification page with email parameter
+      router.push(`/verify-email?email=${encodeURIComponent(data.email)}`)
     } catch (error: any) {
       console.error('Signup error:', error)
       const errorMessage = error?.response?.data?.message || error?.message || 'Failed to create account. Please try again.'
