@@ -6,7 +6,8 @@ import Link from 'next/link'
 import { Button } from '@/components/common/Button'
 import { Input } from '@/components/common/Input'
 import { AuthVisualSection } from '@/components/common/AuthVisualSection'
-import { useConfirmEmail } from '@/provider/auth'
+import { useConfirmEmail, useForgotPassword } from '@/provider/auth'
+import { ResendCodeButton } from '@/components/common/ResendCodeButton'
 import Image from 'next/image'
 
 function VerifyEmailForm() {
@@ -14,10 +15,19 @@ function VerifyEmailForm() {
   const searchParams = useSearchParams()
   const email = searchParams.get('email') || ''
   const confirmEmailMutation = useConfirmEmail()
+  const forgotPasswordMutation = useForgotPassword()
   
   const [verificationCode, setVerificationCode] = useState('')
   const [isVerifying, setIsVerifying] = useState(false)
   const [verificationError, setVerificationError] = useState<string | null>(null)
+
+  // Resend code handler
+  const handleResendCode = async () => {
+    if (!email) {
+      throw new Error('Email is required')
+    }
+    await forgotPasswordMutation.mutateAsync({ email, isResend: true })
+  }
 
   const handleVerifyCode = async () => {
     if (verificationCode.length !== 6) {
@@ -117,6 +127,9 @@ function VerifyEmailForm() {
                       </p>
                     )}
                   </div>
+
+                  {/* Resend Code */}
+                  <ResendCodeButton onResend={handleResendCode} />
 
                   {/* Verify Button */}
                   <Button
