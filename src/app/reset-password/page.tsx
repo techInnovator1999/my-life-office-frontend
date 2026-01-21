@@ -10,7 +10,8 @@ import { Input } from '@/components/common/Input'
 import { PasswordStrength } from '@/components/common/PasswordStrength'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { verifyResetCodeSchema, resetPasswordSchema, type VerifyResetCodeFormData, type ResetPasswordFormData } from '@/lib/validations'
-import { useResetPassword, useVerifyPasswordResetCode } from '@/provider/auth'
+import { useResetPassword, useVerifyPasswordResetCode, useForgotPassword } from '@/provider/auth'
+import { ResendCodeButton } from '@/components/common/ResendCodeButton'
 import Image from 'next/image'
 import { AuthVisualSection } from '@/components/common/AuthVisualSection'
 
@@ -40,6 +41,16 @@ function ResetPasswordForm() {
 
   const verifyMutation = useVerifyPasswordResetCode()
   const resetMutation = useResetPassword()
+  const forgotPasswordMutation = useForgotPassword()
+
+  // Resend code handler
+  const handleResendCode = async () => {
+    const email = verifyForm.getValues('email')
+    if (!email) {
+      throw new Error('Email is required')
+    }
+    await forgotPasswordMutation.mutateAsync({ email, isResend: true })
+  }
 
   useEffect(() => {
     const emailParam = searchParams.get('email')
@@ -156,6 +167,9 @@ function ResetPasswordForm() {
                             </FormItem>
                           )}
                         />
+
+                        {/* Resend Code */}
+                        <ResendCodeButton onResend={handleResendCode} />
 
                         <Button type="submit" isLoading={verifyMutation.isPending} className="w-full">
                           Verify Code
